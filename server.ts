@@ -1,22 +1,31 @@
 import Server from './index';
-import { config } from './src/configs/index';
-import { connectDB, disconnectDB } from './src/configs/database';
-import { logger } from './src/shared/logger';
+import { config } from '@/configs/index';
+import { connectDB, disconnectDB } from '@/configs/database';
+import { logger } from '@/shared/logger';
 
 const server = new Server();
 
 const startServer = async (): Promise<void> => {
-  await connectDB();
+  try {
+    await connectDB();
 
-  server.start();
+    server.start();
 
-  const app = server.getApplication();
+    const app = server.getApplication();
 
-  app.listen(config.PORT, () => {
-    logger.info(`server running on http://localhost:${config.PORT}`, {
-      service: 'Server',
+    app.listen(config.PORT, () => {
+      logger.info(`server running on http://localhost:${config.PORT}`, {
+        service: 'Server',
+      });
     });
-  });
+  } catch (error) {
+    logger.error('failed to start server', {
+      service: 'Server',
+      error,
+    });
+
+    process.exit(1);
+  }
 };
 
 const shutdownServer = async (signal: string): Promise<void> => {
@@ -24,17 +33,30 @@ const shutdownServer = async (signal: string): Promise<void> => {
     service: 'Server',
   });
 
-  await disconnectDB();
+  try {
+    await disconnectDB();
 
-  process.exit(0);
+    logger.info('server shutdown completed', {
+      service: 'Server',
+    });
+
+    process.exit(0);
+  } catch (error) {
+    logger.error('error during server shutdown', {
+      service: 'Server',
+      error,
+    });
+
+    process.exit(1);
+  }
 };
 
 process.on('SIGINT', () => {
-  shutdownServer('SIGINT');
+  void shutdownServer('SIGINT');
 });
 
 process.on('SIGTERM', () => {
-  shutdownServer('SIGTERM');
+  void shutdownServer('SIGTERM');
 });
 
-startServer();
+void startServer();
