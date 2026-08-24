@@ -29,7 +29,7 @@ const startServer = async (): Promise<void> => {
 };
 
 const shutdownServer = async (signal: string): Promise<void> => {
-  logger.warn(`${signal} received. Shutting down server...`, {
+  logger.warn(`${signal} received. shutting down server...`, {
     service: 'Server',
   });
 

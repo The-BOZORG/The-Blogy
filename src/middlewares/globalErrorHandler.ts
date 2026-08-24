@@ -45,12 +45,14 @@ export function errorHandler(
   }
 
   // Custom ApiError
-  if (error instanceof ApiError) {
-    return res.status(error.status).json(error.serializeError());
+  if (err instanceof ApiError) {
+    return res.status(err.statusCode).json(err.serializeError());
   }
 
   // Unknown
   const internalError = new InternalServerError('Internal server error');
 
-  return res.status(internalError.status).json(internalError.serializeError());
+  return res
+    .status(internalError.statusCode)
+    .json(internalError.serializeError());
 }

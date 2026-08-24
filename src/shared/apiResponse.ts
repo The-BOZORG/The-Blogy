@@ -12,11 +12,3 @@ export function ApiResponse<T>(
     success: statusCode < 400,
   };
 }
-
-/* 
-
-return res.status(200).json(
-  ApiResponse(200, user, 'User fetched successfully'),
-);
-
-*/
