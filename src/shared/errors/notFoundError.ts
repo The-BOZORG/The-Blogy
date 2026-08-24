@@ -6,7 +6,7 @@ import { StatusCodes } from 'http-status-codes';
 export class NotFoundError extends ApiError {
   constructor(message: string, details?: any) {
     super(message, StatusCodes.NOT_FOUND, details);
-    this.name = 'BadRequest';
+    this.name = 'notFound';
   }
 
   public serializeError(): SerializeError {

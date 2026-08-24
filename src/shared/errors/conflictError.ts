@@ -6,7 +6,7 @@ import { StatusCodes } from 'http-status-codes';
 export class ConflictError extends ApiError {
   constructor(message: string, details?: any) {
     super(message, StatusCodes.CONFLICT, details);
-    this.name = 'BadRequest';
+    this.name = 'conflict';
   }
 
   public serializeError(): SerializeError {

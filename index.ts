@@ -3,6 +3,9 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 
+import { errorHandler } from '@/middlewares/globalErrorHandler';
+import { NotFoundError } from '@/shared/errors/notFoundError';
+
 class Server {
   private readonly app: Application;
 
@@ -29,11 +32,20 @@ class Server {
   }
 
   private setupRoutes(): void {
-    // routes
+    // appRoutes(this.app)
   }
 
   private setupGlobalError(): void {
-    // global error handler
+    //404 middleware
+    this.app.all('*', (req, res, next) => {
+      next(
+        new NotFoundError(
+          `the URL ${req.originalUrl} not found with this method ${req.method}`,
+        ),
+      );
+    });
+
+    this.app.use(errorHandler);
   }
 
   public getApplication(): Application {
