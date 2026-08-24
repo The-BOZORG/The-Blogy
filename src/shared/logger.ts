@@ -24,9 +24,3 @@ if (config.NODE_ENV === 'development') {
 export const logger = createLogger({
   transports: transportation,
 });
-
-/* 
-logger.info('User created successfully', {
-  service: 'UserService',
-});
-*/

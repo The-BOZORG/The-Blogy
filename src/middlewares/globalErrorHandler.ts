@@ -23,11 +23,9 @@ export function errorHandler(
   // Prisma Errors
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
     if (err.code === 'P2002') {
-      err = new BadRequestError('Value already exists');
-    }
-
-    if (err.code === 'P2025') {
-      err = new NotFoundError('Resource not found');
+      err = new BadRequestError('value already exists');
+    } else if (err.code === 'P2025') {
+      err = new NotFoundError('resource not found');
     }
   }
 
@@ -46,13 +44,13 @@ export function errorHandler(
     err = new AuthenticatedError('OAuth authentication failed');
   }
 
-  // Custom Errors
-  if (err instanceof ApiError) {
-    return res.status(err.status).json(err.serializeError());
+  // Custom ApiError
+  if (error instanceof ApiError) {
+    return res.status(error.status).json(error.serializeError());
   }
 
-  // Unknown Error
-  err = new InternalServerError('Internal server error');
+  // Unknown
+  const internalError = new InternalServerError('Internal server error');
 
-  return res.status(err.status).json(err.serializeError());
+  return res.status(internalError.status).json(internalError.serializeError());
 }
