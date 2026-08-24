@@ -1,19 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ES2022",
     "module": "CommonJS",
     "rootDir": ".",
-    "baseUrl": "./",
     "outDir": "dist",
-    "removeComments": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
     "paths": {
-      "@/*": ["src/*"]
-    },
-    "typeRoots": ["./src/@types"]
+      "@/*": ["./src/*"],
+      "@generated/*": ["./generated/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

@@ -1,6 +1,7 @@
 import Server from './index';
 import { config } from './src/configs/index';
 import { connectDB, disconnectDB } from './src/configs/database';
+import { logger } from './src/shared/logger';
 
 const server = new Server();
 
@@ -12,12 +13,16 @@ const startServer = async (): Promise<void> => {
   const app = server.getApplication();
 
   app.listen(config.PORT, () => {
-    console.log(`server running on http://localhost:${config.PORT}`);
+    logger.info(`server running on http://localhost:${config.PORT}`, {
+      service: 'Server',
+    });
   });
 };
 
 const shutdownServer = async (signal: string): Promise<void> => {
-  console.log(`${signal} received. Shutting down server...`);
+  logger.warn(`${signal} received. Shutting down server...`, {
+    service: 'Server',
+  });
 
   await disconnectDB();
 
@@ -25,11 +30,11 @@ const shutdownServer = async (signal: string): Promise<void> => {
 };
 
 process.on('SIGINT', () => {
-  void shutdownServer('SIGINT');
+  shutdownServer('SIGINT');
 });
 
 process.on('SIGTERM', () => {
-  void shutdownServer('SIGTERM');
+  shutdownServer('SIGTERM');
 });
 
-void startServer();
+startServer();

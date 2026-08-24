@@ -1,6 +1,4 @@
-import { config } from './src/configs/index';
 import express, { Application } from 'express';
-import { prisma } from './src/configs/database';
 import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
@@ -42,4 +40,5 @@ class Server {
     return this.app;
   }
 }
+
 export default Server;

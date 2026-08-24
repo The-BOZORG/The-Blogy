@@ -1,5 +1,6 @@
+import { logger } from '@/shared/logger';
 import { config } from './index';
-import { PrismaClient } from 'generated/prisma/client';
+import { PrismaClient } from '@generated/prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import pkg from 'pg';
 
@@ -20,9 +21,13 @@ export const prisma = new PrismaClient({
 export const connectDB = async () => {
   try {
     await prisma.$connect();
-    console.log('DB connect via prisma');
+    logger.info('DB connect via prisma', {
+      service: 'Database',
+    });
   } catch (error) {
-    console.error('DB connect error', error);
+    logger.error('DB connect error', error, {
+      service: 'Database',
+    });
     process.exit(1);
   }
 };
