@@ -1,9 +1,10 @@
+import { config } from './index';
 import { PrismaClient } from 'generated/prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import pkg from 'pg';
 
 const pool = new pkg.Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: config.DATABASE_URL,
 });
 
 const adapter = new PrismaPg(pool);
@@ -21,7 +22,7 @@ export const connectDB = async () => {
     await prisma.$connect();
     console.log('DB connect via prisma');
   } catch (error) {
-    console.error(`DB connect error: ${error.message}`);
+    console.error('DB connect error', error);
     process.exit(1);
   }
 };
