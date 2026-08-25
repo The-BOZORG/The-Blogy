@@ -5,7 +5,8 @@ import compression from 'compression';
 
 import { errorHandler } from '@/middlewares/globalErrorHandler';
 import { NotFoundError } from '@/shared/errors/notFoundError';
-import { ApiResponse } from '@/shared/apiResponse';
+
+import appRoutes from '@/routes';
 
 class Server {
   private readonly app: Application;
@@ -33,15 +34,7 @@ class Server {
   }
 
   private setupRoutes() {
-    this.app.get('/', (req, res) => {
-      res.status(200).json(ApiResponse(200, null, 'Welcome to Blog API 👋'));
-    });
-
-    this.app.get('/favicon.ico', (req, res) => {
-      res.status(204).end();
-    });
-
-    // appRoutes(this.app)
+    this.app.use('/api/v1', appRoutes);
   }
 
   private setupGlobalError() {
