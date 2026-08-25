@@ -1,41 +1,33 @@
-import { prisma } from '@/configs/database';
-
-import { IUser } from '@/shared/interfaces/IUser.interface';
-import { ConflictError } from '@/shared/errors/conflictError';
-import { BadRequestError } from '@/shared/errors/badRequestError';
-import { UserResponse } from '@/shared/types/userResponse.type';
-import { OtpService } from '@/otp/otp.service';
-
 import argon2 from 'argon2';
 
-type UserData = Pick<IUser, 'email' | 'password' | 'username' | 'phone'>;
+import { prisma } from '@/configs/database';
+
+import { BadRequestError } from '@/shared/errors/badRequestError';
+import { ConflictError } from '@/shared/errors/conflictError';
+import { IUser } from '@/shared/interfaces/IUser.interface';
+import { UserResponse } from '@/shared/types/userResponse.type';
+
+import { OtpService } from '@/otp/otp.service';
+
+type UserData = Pick<IUser, 'email' | 'password' | 'username'>;
 
 class RegisterService {
   constructor(private readonly otpService: OtpService) {}
 
   public async register(data: UserData): Promise<UserResponse> {
-    const { username, email, password, phone } = data;
+    const { username, email, password } = data;
 
-    const existUser = await prisma.user.findFirst({
+    const existUser = await prisma.user.findUnique({
       where: {
-        OR: [{ email }, { phone }],
+        email,
       },
       select: {
         id: true,
         email: true,
-        phone: true,
       },
     });
 
-    if (existUser) {
-      if (existUser.email === email) {
-        throw new ConflictError('email already exists');
-      }
-
-      if (existUser.phone === phone) {
-        throw new ConflictError('phone already exists');
-      }
-    }
+    if (existUser) throw new ConflictError('email already exists');
 
     if (!password) throw new BadRequestError('password is required');
 
@@ -45,7 +37,6 @@ class RegisterService {
       data: {
         username,
         email,
-        phone,
         password: hashedPassword,
       },
       omit: {
@@ -54,7 +45,7 @@ class RegisterService {
     });
 
     await this.otpService.generateOtp({
-      phone,
+      email,
     });
 
     return newUser;

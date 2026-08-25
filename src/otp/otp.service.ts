@@ -2,8 +2,8 @@ import crypto from 'node:crypto';
 
 import { redisClient } from '@/configs/redis';
 
-import { IOtpData } from '@/shared/interfaces/opt.interface';
 import { BadRequestError } from '@/shared/errors/badRequestError';
+import { IOtpData } from '@/shared/interfaces/opt.interface';
 
 export class OtpService {
   private readonly otpExpiration = 300;
@@ -12,12 +12,12 @@ export class OtpService {
   public async generateOtp(data: IOtpData): Promise<string> {
     const code = crypto.randomInt(100000, 1000000).toString();
 
-    const key = `otp:${data.phone}`;
+    const key = `otp:${data.email}`;
 
     await redisClient.hSet(key, {
       code,
       attempts: '0',
-      phone: data.phone,
+      email: data.email,
     });
 
     await redisClient.expire(key, this.otpExpiration);
@@ -25,8 +25,8 @@ export class OtpService {
     return code;
   }
 
-  public async verifyOtp(phone: string, code: string): Promise<void> {
-    const key = `otp:${phone}`;
+  public async verifyOtp(email: string, code: string): Promise<void> {
+    const key = `otp:${email}`;
 
     const otpData = await redisClient.hGetAll(key);
 

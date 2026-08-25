@@ -1,7 +1,7 @@
 export interface IOtpData {
-  phone: string;
+  email: string;
 }
 
 export enum OtpType {
-  PHONE = 'PHONE',
+  EMAIL = 'EMAIL',
 }

@@ -11,24 +11,31 @@ class VerifyOtpService {
     private readonly sessionService: SessionService,
   ) {}
 
-  public async verifyOtp(phone: string, code: string): Promise<string> {
+  public async verifyOtp(email: string, code: string): Promise<string> {
     const user = await prisma.user.findUnique({
-      where: { phone },
+      where: {
+        email,
+      },
       select: {
         id: true,
         status: true,
       },
     });
 
-    if (!user) throw new BadRequestError('user not found');
+    if (!user) {
+      throw new BadRequestError('user not found');
+    }
 
-    if (user.status === 'VERIFIED')
+    if (user.status === 'VERIFIED') {
       throw new BadRequestError('user is already verified');
+    }
 
-    await this.otpService.verifyOtp(phone, code);
+    await this.otpService.verifyOtp(email, code);
 
     await prisma.user.update({
-      where: { id: user.id },
+      where: {
+        id: user.id,
+      },
       data: {
         status: 'VERIFIED',
       },
