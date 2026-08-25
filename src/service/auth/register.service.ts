@@ -7,7 +7,8 @@ import { ConflictError } from '@/shared/errors/conflictError';
 import { IUser } from '@/shared/interfaces/IUser.interface';
 import { UserResponse } from '@/shared/types/userResponse.type';
 
-import { OtpService } from '@/otp/otp.service';
+import { OtpService } from '@/service/otp/otp.service';
+import { emailService } from '@/mail/mail.service';
 
 type UserData = Pick<IUser, 'email' | 'password' | 'username'>;
 
@@ -44,10 +45,11 @@ class RegisterService {
       },
     });
 
-    await this.otpService.generateOtp({
+    const otp = await this.otpService.generateOtp({
       email,
     });
 
+    await emailService.sendOtpEmail(email, otp);
     return newUser;
   }
 }

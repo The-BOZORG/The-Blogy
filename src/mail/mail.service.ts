@@ -4,7 +4,7 @@ import nodemailer, { Transporter } from 'nodemailer';
 
 import { config } from '@/configs';
 
-class EmailService {
+export class EmailService {
   private readonly transporter: Transporter;
 
   constructor() {

@@ -22,13 +22,10 @@ class VerifyOtpService {
       },
     });
 
-    if (!user) {
-      throw new BadRequestError('user not found');
-    }
+    if (!user) throw new BadRequestError('user not found');
 
-    if (user.status === 'VERIFIED') {
+    if (user.status === 'VERIFIED')
       throw new BadRequestError('user is already verified');
-    }
 
     await this.otpService.verifyOtp(email, code);
 

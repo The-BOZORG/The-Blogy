@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import { asyncHandler } from '@/middlewares/asyncHandler';
 
-import { verifyOtpService } from '@/otp/verify-otp.service ';
+import { verifyOtpService } from '@/service/otp/verify-otp.service ';
 
 class VerifyOtpController {
   public verifyOtp = asyncHandler(
