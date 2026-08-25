@@ -19,4 +19,9 @@ export const config = {
     .transform((value) => value.split(',').map((email) => email.trim()))
     .pipe(z.array(z.email()))
     .parse(process.env.WHITELIST_ADMIN),
+
+  REDIS_URL: z
+    .string()
+    .min(1, 'REDIS_URL is required')
+    .parse(process.env.REDIS_URL),
 };

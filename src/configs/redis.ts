@@ -1,8 +1,9 @@
 import { createClient } from 'redis';
 import { logger } from '@/shared/logger';
+import { config } from './index';
 
 export const redisClient = createClient({
-  url: process.env.REDIS_URL,
+  url: config.REDIS_URL,
 });
 
 redisClient.on('ready', () => {
