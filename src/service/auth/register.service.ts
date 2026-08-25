@@ -3,14 +3,12 @@ import { prisma } from '@/configs/database';
 import { IUser } from '@/shared/interfaces/IUser.interface';
 import { ConflictError } from '@/shared/errors/conflictError';
 import { BadRequestError } from '@/shared/errors/badRequestError';
-
+import { UserResponse } from '@/shared/types/userResponse.type';
 import { OtpService } from '@/otp/otp.service';
 
 import argon2 from 'argon2';
 
 type UserData = Pick<IUser, 'email' | 'password' | 'username' | 'phone'>;
-
-type UserResponse = Omit<IUser, 'password'>;
 
 class RegisterService {
   constructor(private readonly otpService: OtpService) {}
