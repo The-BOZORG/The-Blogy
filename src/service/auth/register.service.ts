@@ -7,14 +7,9 @@ import { ConflictError } from '@/shared/errors/conflictError';
 import { IUser } from '@/shared/interfaces/IUser.interface';
 import { UserResponse } from '@/shared/types/userResponse.type';
 
-import { OtpService } from '@/service/otp/otp.service';
-import { emailService } from '@/mail/mail.service';
-
 type UserData = Pick<IUser, 'email' | 'password' | 'username'>;
 
 class RegisterService {
-  constructor(private readonly otpService: OtpService) {}
-
   public async register(data: UserData): Promise<UserResponse> {
     const { username, email, password } = data;
 
@@ -45,13 +40,8 @@ class RegisterService {
       },
     });
 
-    const otp = await this.otpService.generateOtp({
-      email,
-    });
-
-    await emailService.sendOtpEmail(email, otp);
     return newUser;
   }
 }
 
-export const registerService = new RegisterService(new OtpService());
+export const registerService = new RegisterService();
