@@ -8,12 +8,17 @@ import argon2 from 'argon2';
 
 type UserData = Pick<IUser, 'email' | 'password' | 'username'>;
 
+type UserResponse = Omit<IUser, 'password'>;
+
 class RegisterService {
-  public async register(data: UserData): Promise<IUser> {
+  public async register(data: UserData): Promise<UserResponse> {
     const { username, email, password } = data;
 
     const existUser = await prisma.user.findUnique({
       where: { email },
+      select: {
+        id: true,
+      },
     });
 
     if (existUser) throw new ConflictError('email already  exist');
@@ -28,7 +33,12 @@ class RegisterService {
         email,
         password: hashedPassword,
       },
+      omit: {
+        password: true,
+      },
     });
     return newUser;
   }
 }
+
+export const registerService: RegisterService = new RegisterService();

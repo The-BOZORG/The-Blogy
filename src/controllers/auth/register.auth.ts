@@ -1,14 +1,18 @@
-import { asyncHandler } from '@/middlewares/asyncHandler';
-import { logger } from '@/shared/logger';
 import { Request, Response } from 'express';
-import { prisma } from '@/configs/database';
-import { User } from '@generated/prisma/client';
-import { IUser } from '@/shared/interfaces/IUser.interface';
+import { asyncHandler } from '@/middlewares/asyncHandler';
+import { registerService } from '@/service/auth/register.service';
+import { ApiResponse } from '@/shared/apiResponse';
 
-import argon2 from 'argon2';
+export class RegisterController {
+  public register = asyncHandler(
+    async (req: Request, res: Response): Promise<void> => {
+      const user = await registerService.register(req.body);
 
-class RegisterService {
-  public async Register(req: Request, res: Response): Promise<IUser> {
-    return asyncHandler(async () => {});
-  }
+      res
+        .status(200)
+        .json(ApiResponse(200, user, 'user register successfully'));
+    },
+  );
 }
+
+export const registerController: RegisterController = new RegisterController();
