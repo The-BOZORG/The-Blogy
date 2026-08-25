@@ -1,6 +1,7 @@
 import Server from './index';
 import { config } from '@/configs/index';
 import { connectDB, disconnectDB } from '@/configs/database';
+import { connectRedis, disconnectRedis } from '@/configs/redis';
 import { logger } from '@/shared/logger';
 
 const server = new Server();
@@ -8,6 +9,7 @@ const server = new Server();
 const startServer = async (): Promise<void> => {
   try {
     await connectDB();
+    await connectRedis();
 
     server.start();
 
@@ -34,6 +36,7 @@ const shutdownServer = async (signal: string): Promise<void> => {
   });
 
   try {
+    await disconnectDB();
     await disconnectDB();
 
     logger.info('server shutdown completed', {

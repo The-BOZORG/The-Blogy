@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
+import cookieParser from 'cookie-parser';
 
 import { errorHandler } from '@/middlewares/globalErrorHandler';
 import { NotFoundError } from '@/shared/errors/notFoundError';
@@ -31,6 +32,7 @@ class Server {
       }),
     );
     this.app.use(helmet());
+    this.app.use(cookieParser());
   }
 
   private setupRoutes() {
