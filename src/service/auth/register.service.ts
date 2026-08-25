@@ -4,24 +4,40 @@ import { IUser } from '@/shared/interfaces/IUser.interface';
 import { ConflictError } from '@/shared/errors/conflictError';
 import { BadRequestError } from '@/shared/errors/badRequestError';
 
+import { OtpService } from '@/otp/otp.service';
+
 import argon2 from 'argon2';
 
-type UserData = Pick<IUser, 'email' | 'password' | 'username'>;
+type UserData = Pick<IUser, 'email' | 'password' | 'username' | 'phone'>;
 
 type UserResponse = Omit<IUser, 'password'>;
 
 class RegisterService {
-  public async register(data: UserData): Promise<UserResponse> {
-    const { username, email, password } = data;
+  constructor(private readonly otpService: OtpService) {}
 
-    const existUser = await prisma.user.findUnique({
-      where: { email },
+  public async register(data: UserData): Promise<UserResponse> {
+    const { username, email, password, phone } = data;
+
+    const existUser = await prisma.user.findFirst({
+      where: {
+        OR: [{ email }, { phone }],
+      },
       select: {
         id: true,
+        email: true,
+        phone: true,
       },
     });
 
-    if (existUser) throw new ConflictError('email already  exist');
+    if (existUser) {
+      if (existUser.email === email) {
+        throw new ConflictError('email already exists');
+      }
+
+      if (existUser.phone === phone) {
+        throw new ConflictError('phone already exists');
+      }
+    }
 
     if (!password) throw new BadRequestError('password is required');
 
@@ -31,14 +47,20 @@ class RegisterService {
       data: {
         username,
         email,
+        phone,
         password: hashedPassword,
       },
       omit: {
         password: true,
       },
     });
+
+    await this.otpService.generateOtp({
+      phone,
+    });
+
     return newUser;
   }
 }
 
-export const registerService: RegisterService = new RegisterService();
+export const registerService = new RegisterService(new OtpService());

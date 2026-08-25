@@ -2,7 +2,7 @@ import Server from './index';
 import { config } from '@/configs/index';
 import { connectDB, disconnectDB } from '@/configs/database';
 import { connectRedis, disconnectRedis } from '@/configs/redis';
-import { logger } from '@/shared/logger';
+import { logger } from '@/utils/logger';
 
 const server = new Server();
 

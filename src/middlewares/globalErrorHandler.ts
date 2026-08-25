@@ -1,7 +1,7 @@
 import { Prisma } from '@generated/prisma/client';
 import { Request, Response, NextFunction } from 'express';
 
-import { logger } from '@/shared/logger';
+import { logger } from '@/utils/logger';
 import { ApiError } from '@/shared/errors/apiError';
 import { BadRequestError } from '@/shared/errors/badRequestError';
 import { NotFoundError } from '@/shared/errors/notFoundError';
