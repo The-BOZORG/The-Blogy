@@ -26,6 +26,10 @@ export class SessionService {
 
     return sessionId;
   }
+
+  public async deleteSession(sessionId: string): Promise<void> {
+    await redisClient.del(`session:${sessionId}`);
+  }
 }
 
 export const sessionService = new SessionService();
