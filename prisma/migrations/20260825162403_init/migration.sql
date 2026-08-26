@@ -5,7 +5,7 @@ CREATE TYPE "Role" AS ENUM ('ADMIN', 'USER', 'AUTHOR');
 CREATE TYPE "Activity" AS ENUM ('ACTIVE', 'BANNED', 'MUTE');
 
 -- CreateEnum
-CREATE TYPE "VerificationStatus" AS ENUM ('PENDING', 'VERIFIED');
+CREATE TYPE "AccountStatus" AS ENUM ('PENDING', 'VERIFIED');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -14,7 +14,7 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "password" TEXT,
     "role" "Role" NOT NULL DEFAULT 'USER',
-    "status" "VerificationStatus" NOT NULL DEFAULT 'PENDING',
+    "status" "AccountStatus" NOT NULL DEFAULT 'PENDING',
     "isActive" "Activity" NOT NULL DEFAULT 'ACTIVE',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

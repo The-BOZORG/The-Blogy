@@ -18,9 +18,6 @@ export class SessionService {
 
     await redisClient.hSet(sessionKey, {
       userId,
-      createdAt: now,
-      lastActivityAt: now,
-      expiresAt,
     });
 
     await redisClient.expire(sessionKey, this.sessionExpiration);
