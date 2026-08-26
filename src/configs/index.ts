@@ -24,4 +24,19 @@ export const config = {
     .string()
     .min(1, 'REDIS_URL is required')
     .parse(process.env.REDIS_URL),
+
+  GOOGLE_CLIENT_ID: z
+    .string()
+    .min(1, 'GOOGLE_CLIENT_ID is required')
+    .parse(process.env.GOOGLE_CLIENT_ID),
+
+  GOOGLE_CLIENT_SECRET: z
+    .string()
+    .min(1, 'GOOGLE_CLIENT_SECRET is required')
+    .parse(process.env.GOOGLE_CLIENT_SECRET),
+
+  GOOGLE_CALLBACK_URL: z
+    .string()
+    .min(1, 'GOOGLE_CALLBACK_URL is required')
+    .parse(process.env.GOOGLE_CALLBACK_URL),
 };
