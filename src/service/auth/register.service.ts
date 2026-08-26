@@ -6,6 +6,7 @@ import { BadRequestError } from '@/shared/errors/badRequestError';
 import { ConflictError } from '@/shared/errors/conflictError';
 import { IUser } from '@/shared/interfaces/IUser.interface';
 import { UserResponse } from '@/shared/types/userResponse.type';
+import { config } from '@/configs';
 
 type UserData = Pick<IUser, 'email' | 'password' | 'username'>;
 
@@ -29,11 +30,16 @@ class RegisterService {
 
     const hashedPassword = await argon2.hash(password);
 
+    const role = config.WHITELIST_ADMIN.includes(email.toLowerCase())
+      ? 'ADMIN'
+      : 'USER';
+
     const newUser = await prisma.user.create({
       data: {
         username,
         email,
         password: hashedPassword,
+        role,
       },
       omit: {
         password: true,
