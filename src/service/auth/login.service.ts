@@ -18,6 +18,7 @@ export class LoginService {
       select: {
         id: true,
         password: true,
+        status: true,
       },
     });
 
@@ -31,6 +32,15 @@ export class LoginService {
     const validPassword = await argon2.verify(hashedPassword, password);
 
     if (!validPassword) throw new BadRequestError('invalid email or password');
+
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        status: 'VERIFIED',
+      },
+    });
 
     return this.sessionService.createSession(user.id);
   }

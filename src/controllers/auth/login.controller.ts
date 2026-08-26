@@ -20,3 +20,4 @@ export class LoginController {
     },
   );
 }
+export const loginController: LoginController = new LoginController();
