@@ -23,6 +23,7 @@ export default passport.use(
       };
 
       done(null, user);
+      console.log('GOOGLE CALLBACK:', config.GOOGLE_CALLBACK_URL);
     },
   ),
 );

@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
 import passport from 'passport';
 
+import { BadRequestError } from '@/shared/errors/badRequestError';
 import { asyncHandler } from '@/middlewares/asyncHandler';
 
 import { googleService } from '@/service/oauth/google.service';
 import { SessionService } from '@/utils/session';
+import { GoogleUserData } from '@/shared/interfaces/google.interface';
 
 class GoogleController {
   private readonly sessionService = new SessionService();
@@ -15,7 +17,11 @@ class GoogleController {
 
   public googleCallback = asyncHandler(
     async (req: Request, res: Response): Promise<void> => {
-      const user = await googleService.findOrCreateGoogleUser(req.user);
+      if (!req.user) throw new BadRequestError('google authentication failed');
+
+      const googleUser = req.user as GoogleUserData;
+
+      const user = await googleService.findOrCreateGoogleUser(googleUser);
 
       const sessionId = await this.sessionService.createSession(user.id);
 
