@@ -9,7 +9,7 @@ import '@/google/google.strategy';
 
 import { errorHandler } from '@/middlewares/globalErrorHandler';
 import { NotFoundError } from '@/shared/errors/notFoundError';
-import { corsOptions } from '@/utils/core';
+import { corsOptions } from '@/utils/cors';
 
 import appRoutes from '@/routes';
 
