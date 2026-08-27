@@ -1,4 +1,4 @@
-import { SerializeError } from '../types/serializeError';
+import { SerializeError } from '../types';
 import { ApiError } from './apiError';
 import { StatusCodes } from 'http-status-codes';
 
