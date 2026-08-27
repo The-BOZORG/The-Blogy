@@ -16,6 +16,7 @@ router.post('/register', validate(registerSchema), registerController.register);
 router.post('/login', validate(loginSchema), loginController.login);
 router.post('/logout', authMiddleware, logoutController.logout);
 
+//google OAth
 router.get('/google', googleController.google);
 
 router.get(

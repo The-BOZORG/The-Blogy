@@ -4,11 +4,9 @@ import { prisma } from '@/configs/database';
 
 import { BadRequestError } from '@/shared/errors/badRequestError';
 import { ConflictError } from '@/shared/errors/conflictError';
-import { IUser } from '@/shared/interfaces/IUser.interface';
-import { UserResponse } from '@/shared/types/userResponse.type';
+import { UserData } from '@/shared/interfaces';
+import { UserResponse } from '@/shared/types';
 import { config } from '@/configs';
-
-type UserData = Pick<IUser, 'email' | 'password' | 'username'>;
 
 class RegisterService {
   public async register(data: UserData): Promise<UserResponse> {

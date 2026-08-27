@@ -6,7 +6,7 @@ import { asyncHandler } from '@/middlewares/asyncHandler';
 
 import { googleService } from '@/service/oauth/google.service';
 import { SessionService } from '@/utils/session';
-import { GoogleUserData } from '@/shared/interfaces/google.interface';
+import { GoogleUserData } from '@/shared/interfaces';
 
 class GoogleController {
   private readonly sessionService = new SessionService();

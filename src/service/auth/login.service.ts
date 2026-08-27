@@ -5,7 +5,7 @@ import { prisma } from '@/configs/database';
 import { BadRequestError } from '@/shared/errors/badRequestError';
 
 import { SessionService } from '@/utils/session';
-import { LoginData } from '@/shared/types/loginData';
+import { LoginData } from '@/shared/types';
 
 export class LoginService {
   constructor(private readonly sessionService: SessionService) {}

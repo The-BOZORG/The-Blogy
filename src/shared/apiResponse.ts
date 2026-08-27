@@ -1,4 +1,4 @@
-import { ApiResponseType } from '@/shared/interfaces/apiResponse.interface';
+import { ApiResponseType } from './interfaces';
 
 export function ApiResponse<T>(
   statusCode: number,

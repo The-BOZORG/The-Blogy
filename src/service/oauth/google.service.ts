@@ -1,6 +1,6 @@
 import { prisma } from '@/configs/database';
 
-import { GoogleUserData } from '@/shared/interfaces/google.interface';
+import { GoogleUserData } from '@/shared/interfaces';
 
 class GoogleService {
   public async findOrCreateGoogleUser(data: GoogleUserData) {
