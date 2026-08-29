@@ -12,17 +12,16 @@ jobs:
       postgres:
         image: postgres:17
         env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: for40018935
+          POSTGRES_DB: blogy
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U postgres -d blogy"
+          --health-cmd="pg_isready -U test -d blogy"
           --health-interval=10s
           --health-timeout=5s
-          --health-retries=10
-          --health-start-period=10s
+          --health-retries=5
 
       redis:
         image: redis:7
@@ -51,7 +50,7 @@ jobs:
 
       - name: Run database migrations
         env:
-          DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}
+          DATABASE_URL: postgresql://postgres:for40018935@localhost:5432/blogy
         run: npx prisma migrate deploy
 
       - name: TypeScript check
@@ -59,10 +58,10 @@ jobs:
 
       - name: Run tests
         env:
-          NODE_ENV: test
-          PORT: ${{ secrets.PORT }}
-          DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}
-          REDIS_URL: ${{ secrets.REDIS_URL }}
-          WHITELIST_ADMIN: ${{ secrets.WHITELIST_ADMIN }}
-          CORS_WHITELIST: ${{ secrets.CORS_WHITELIST }}
+          NODE_ENV: development
+          PORT: 3000
+          DATABASE_URL: postgresql://postgres:for40018935@localhost:5432/blogy
+          REDIS_URL: redis://localhost:6379
+          WHITELIST_ADMIN: soroush@yahoo.com
+          CORS_WHITELIST: http://Blogy.project.com
         run: npx jest
