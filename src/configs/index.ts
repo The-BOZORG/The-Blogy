@@ -20,6 +20,11 @@ export const config = {
     .pipe(z.array(z.email()))
     .parse(process.env.WHITELIST_ADMIN),
 
+  CORS_WHITELIST: z
+    .string()
+    .min(1, 'CORS_WHITELIST is required')
+    .parse(process.env.CORS_WHITELIST),
+
   REDIS_URL: z
     .string()
     .min(1, 'REDIS_URL is required')

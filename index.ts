@@ -9,6 +9,7 @@ import '@/google/google.strategy';
 
 import { errorHandler } from '@/middlewares/globalErrorHandler';
 import { NotFoundError } from '@/shared/errors/notFoundError';
+import { corsOptions } from '@/utils/cors';
 
 import appRoutes from '@/routes';
 
@@ -28,7 +29,7 @@ class Server {
   private setupMiddleware() {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(cors());
+    this.app.use(cors(corsOptions));
     this.app.use(
       compression({
         threshold: 1024,
