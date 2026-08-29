@@ -5,12 +5,6 @@ export interface ApiResponseType<T = any> {
   success: boolean;
 }
 
-export interface GoogleUserData {
-  googleId: string;
-  email: string;
-  username: string;
-}
-
 export interface IUser {
   username: string;
   email: string;
