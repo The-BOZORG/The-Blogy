@@ -4,12 +4,11 @@ import { prisma } from '@/configs/database';
 
 import { BadRequestError } from '@/shared/errors/badRequestError';
 import { ConflictError } from '@/shared/errors/conflictError';
-import { UserData } from '@/shared/interfaces';
-import { UserResponse } from '@/shared/types';
+import { RegisterData, UserResponse } from '@/shared/types';
 import { config } from '@/configs';
 
 class RegisterService {
-  public async register(data: UserData): Promise<UserResponse> {
+  public async register(data: RegisterData): Promise<UserResponse> {
     const { username, email, password } = data;
 
     const existUser = await prisma.user.findUnique({

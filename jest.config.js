@@ -11,7 +11,7 @@ module.exports = {
     '^@generated/(.*)$': '<rootDir>/generated/$1',
   },
 
-  testMatch: ['**/__tests__/**/*.test.ts', '**/?(*.)+(spec|test).ts'],
+  testMatch: ['<rootDir>/src/test/**/*.test.ts'],
 
   clearMocks: true,
   restoreMocks: true,

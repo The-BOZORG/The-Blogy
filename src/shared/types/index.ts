@@ -1,4 +1,10 @@
-import { IUser } from '../interfaces';
+import { UserData } from '../interfaces';
+
+export type RegisterData = {
+  username: string;
+  email: string;
+  password: string;
+};
 
 export type LoginData = {
   email: string;
@@ -8,7 +14,7 @@ export type LoginData = {
 export type SerializeError = {
   message: string;
   statusCode: number;
-  details?: any;
+  details?: unknown;
 };
 
-export type UserResponse = Omit<IUser, 'password'>;
+export type UserResponse = Omit<UserData, 'password'>;

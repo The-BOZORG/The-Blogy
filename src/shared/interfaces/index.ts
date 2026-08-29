@@ -5,21 +5,11 @@ export interface ApiResponseType<T = any> {
   success: boolean;
 }
 
-export interface IUser {
-  username: string;
-  email: string;
-  password: string | null;
-  role: 'ADMIN' | 'USER' | 'AUTHOR';
-  status: 'PENDING' | 'VERIFIED';
-  isActive: 'ACTIVE' | 'BANNED' | 'MUTE';
-}
-
 export interface UserData {
   username: string;
   email: string;
-  password: string | null;
-}
-
-export interface IOtpData {
-  email: string;
+  password: string;
+  role: 'ADMIN' | 'USER' | 'AUTHOR';
+  status: 'PENDING' | 'VERIFIED';
+  isActive: 'ACTIVE' | 'BANNED' | 'MUTE';
 }
