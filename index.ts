@@ -3,9 +3,6 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
-import passport from 'passport';
-
-import '@/google/google.strategy';
 
 import { errorHandler } from '@/middlewares/globalErrorHandler';
 import { NotFoundError } from '@/shared/errors/notFoundError';
@@ -37,8 +34,6 @@ class Server {
     );
     this.app.use(helmet());
     this.app.use(cookieParser());
-
-    this.app.use(passport.initialize());
   }
 
   private setupRoutes() {

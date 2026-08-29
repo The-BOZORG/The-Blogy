@@ -37,7 +37,7 @@ const shutdownServer = async (signal: string): Promise<void> => {
 
   try {
     await disconnectDB();
-    await disconnectDB();
+    await disconnectRedis();
 
     logger.info('server shutdown completed', {
       service: 'Server',
