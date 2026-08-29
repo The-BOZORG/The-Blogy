@@ -39,15 +39,11 @@
     "@types/compression": "^1.8.1",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
-    "@types/ejs": "^3.1.5",
     "@types/express": "^5.0.6",
     "@types/express-session": "^1.19.0",
     "@types/jest": "^30.0.0",
     "@types/multer": "^2.2.0",
     "@types/node": "^26.2.0",
-    "@types/nodemailer": "^8.0.1",
-    "@types/passport": "^1.0.17",
-    "@types/passport-google-oauth20": "^2.0.17",
     "@types/pg": "^8.23.1",
     "@types/supertest": "^7.2.1",
     "jest": "^30.4.2",
@@ -55,7 +51,6 @@
     "prettier": "^3.9.6",
     "prisma": "^7.9.1",
     "supertest": "^7.2.2",
-    "tsconfig-paths": "^4.2.0",
     "tsx": "^4.23.12",
     "typescript": "^7.0.2"
   }
