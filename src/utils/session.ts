@@ -11,11 +11,6 @@ export class SessionService {
     const sessionKey = `session:${sessionId}`;
     const userSessionsKey = `user_sessions:${userId}`;
 
-    const now = new Date().toISOString();
-    const expiresAt = new Date(
-      Date.now() + this.sessionExpiration * 1000,
-    ).toISOString();
-
     await redisClient.hSet(sessionKey, {
       userId,
     });
@@ -28,7 +23,19 @@ export class SessionService {
   }
 
   public async deleteSession(sessionId: string): Promise<void> {
-    await redisClient.del(`session:${sessionId}`);
+    const sessionKey = `session:${sessionId}`;
+
+    const session = await redisClient.hGet(sessionKey, 'userId');
+
+    if (!session) {
+      return;
+    }
+
+    const userSessionsKey = `user_sessions:${session}`;
+
+    await redisClient.del(sessionKey);
+
+    await redisClient.sRem(userSessionsKey, sessionId);
   }
 }
 
