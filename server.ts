@@ -9,6 +9,7 @@ const server = new Server();
 const startServer = async (): Promise<void> => {
   try {
     await connectDB();
+
     await connectRedis();
 
     server.start();

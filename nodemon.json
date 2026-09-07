@@ -1,6 +1,7 @@
 {
-  "watch": ["src"],
-  "ext": "ts",
+  "watch": ["src", "server.ts"],
+  "ext": "ts,json",
   "ignore": [],
+  "legacyWatch": true,
   "exec": "tsx server.ts"
 }
