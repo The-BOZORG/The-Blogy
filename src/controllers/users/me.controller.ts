@@ -7,7 +7,7 @@ import { showMeServices } from '@/service/users/me.service';
 export class ShowMeController {
   public showMe = asyncHandler(
     async (req: Request, res: Response): Promise<void> => {
-      const user = await showMeServices.showMe(req.cookies.sessionId);
+      const user = await showMeServices.showMe(req.cookies.session_id);
 
       res.status(200).json(ApiResponse(200, user));
     },

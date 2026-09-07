@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "start": "nodemon",
-    "test": "jest"
+    "dev": "tsx watch src/server.ts"
   },
   "keywords": [],
   "author": "",
