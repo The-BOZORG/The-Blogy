@@ -13,12 +13,12 @@ jobs:
         image: postgres:17
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: for40018935
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: blogy
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U test -d blogy"
+          --health-cmd="pg_isready -U postgres -d blogy"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -41,6 +41,7 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: 22
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -50,7 +51,7 @@ jobs:
 
       - name: Run database migrations
         env:
-          DATABASE_URL: postgresql://postgres:for40018935@localhost:5432/blogy
+          DATABASE_URL: postgresql://postgres:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/blogy
         run: npx prisma migrate deploy
 
       - name: TypeScript check
@@ -58,10 +59,21 @@ jobs:
 
       - name: Run tests
         env:
-          NODE_ENV: development
+          NODE_ENV: test
           PORT: 3000
-          DATABASE_URL: postgresql://postgres:for40018935@localhost:5432/blogy
+          DATABASE_URL: postgresql://postgres:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/blogy
           REDIS_URL: redis://localhost:6379
-          WHITELIST_ADMIN: soroush@yahoo.com
+          WHITELIST_ADMIN: ${{ secrets.WHITELIST_ADMIN }}
           CORS_WHITELIST: http://Blogy.project.com
-        run: npx jest
+        run: npm test
+
+  docker:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Build Docker image
+        run: docker build -t blogy .

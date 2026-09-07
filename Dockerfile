@@ -1,4 +1,4 @@
-FROM node:22 AS builder
+FROM node:22
 
 WORKDIR /app
 
@@ -11,20 +11,6 @@ COPY . .
 RUN npx prisma generate
 
 RUN npm run build
-
-FROM node:22 AS development
-
-WORKDIR /app
-
-ENV NODE_ENV=development
-
-COPY package*.json ./
-
-RUN npm ci
-
-COPY . .
-
-RUN npx prisma generate
 
 EXPOSE 3000
 
