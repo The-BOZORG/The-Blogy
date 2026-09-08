@@ -21,7 +21,7 @@ describe('UpdateUserService', () => {
 
     const data = {
       username: 'ali',
-      email: 'ali@gmail.com',
+      email: 'update-test@gmail.com',
     };
 
     (prisma.user.update as jest.Mock).mockResolvedValue({
@@ -55,7 +55,7 @@ describe('UpdateUserService', () => {
 
     const data = {
       username: 'ali',
-      email: 'ali@gmail.com',
+      email: 'update-test@gmail.com',
     };
 
     (prisma.user.update as jest.Mock).mockResolvedValue(null);
