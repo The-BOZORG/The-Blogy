@@ -23,3 +23,10 @@ export interface UpdatePasswordData {
   currentPassword: string;
   newPassword: string;
 }
+
+export interface BlogData {
+  title: string;
+  content: String;
+  banner?: String;
+  status: 'DRAFT' | 'PUBLISHED';
+}

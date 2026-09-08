@@ -15,5 +15,21 @@ export const loginSchema = z.object({
   password: z.string().min(4, 'password must be at least 4 characters'),
 });
 
+export const updateUserSchema = z.object({
+  username: z
+    .string()
+    .trim()
+    .min(3, 'username must be at least 3 characters')
+    .max(30, 'username must be at most 30 characters'),
+  email: z.string().trim().email('valid email required').toLowerCase(),
+});
+
+export const updatePasswordSchema = z.object({
+  currentPassword: z.string().min(4, 'password must be at least 4 characters'),
+  newPassword: z.string().min(4, 'password must be at least 4 characters'),
+});
+
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
+export type UpdateUserInput = z.infer<typeof updateUserSchema>;
+export type UpdatePasswordInput = z.infer<typeof updatePasswordSchema>;

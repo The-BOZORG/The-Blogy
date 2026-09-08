@@ -8,22 +8,39 @@ import { deleteUserController } from '@/controllers/users/delete.controller';
 
 import { authMiddleware } from '@/middlewares/auth';
 import { permission } from '@/middlewares/permission';
+import { validate } from '@/middlewares/validate';
+
+import {
+  updatePasswordSchema,
+  updateUserSchema,
+} from '@/schemas/authValidate.schema';
+
+import { globalLimiter } from '@/middlewares/limiter';
 
 const router = Router();
 
-router.get('/me', authMiddleware, showMeController.showMe);
+router.get('/me', globalLimiter, authMiddleware, showMeController.showMe);
 
 router.get(
   '/get',
+  globalLimiter,
   authMiddleware,
   permission(['ADMIN']),
   getAllController.getAll,
 );
 
-router.patch('/update', authMiddleware, updateController.updateUser);
+router.patch(
+  '/update',
+  globalLimiter,
+  validate(updateUserSchema),
+  authMiddleware,
+  updateController.updateUser,
+);
 
 router.patch(
   '/password',
+  globalLimiter,
+  validate(updatePasswordSchema),
   authMiddleware,
   updatePasswordController.updatePassword,
 );

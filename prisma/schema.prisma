@@ -42,6 +42,7 @@ enum AccountStatus {
 model Blog {
   id        String        @id @default(uuid())
   title  String
+  content String
   slug     String        @unique
   authorId  String 
   status   BlogStatus   @default(DRAFT)
