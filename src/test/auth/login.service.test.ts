@@ -26,7 +26,7 @@ describe('LoginService', () => {
     jest.clearAllMocks();
   });
 
-  //login success test
+  // login success test
   it('should login user successfully', async () => {
     const data = {
       email: 'soroush@gmail.com',
@@ -36,6 +36,9 @@ describe('LoginService', () => {
     (prisma.user.findUnique as jest.Mock).mockResolvedValue({
       id: 'user-id',
       password: 'hashed-password',
+      status: 'ACTIVE',
+      username: 'soroush',
+      email: 'soroush@gmail.com',
     });
 
     (argon2.verify as jest.Mock).mockResolvedValue(true);
@@ -48,7 +51,11 @@ describe('LoginService', () => {
 
     const result = await loginService.login(data);
 
-    expect(result).toBe('session-id');
+    expect(result).toEqual({
+      sessionId: 'session-id',
+      username: 'soroush',
+      email: 'soroush@gmail.com',
+    });
 
     expect(prisma.user.findUnique).toHaveBeenCalledWith({
       where: {
@@ -58,6 +65,8 @@ describe('LoginService', () => {
         id: true,
         password: true,
         status: true,
+        username: true,
+        email: true,
       },
     });
 
@@ -66,12 +75,19 @@ describe('LoginService', () => {
       data.password,
     );
 
-    expect(prisma.user.update).toHaveBeenCalled();
+    expect(prisma.user.update).toHaveBeenCalledWith({
+      where: {
+        id: 'user-id',
+      },
+      data: {
+        status: 'VERIFIED',
+      },
+    });
 
     expect(sessionService.createSession).toHaveBeenCalledWith('user-id');
   });
 
-  //user not exist test
+  // user not exist test
   it('should throw BadRequestError if user does not exist', async () => {
     const data = {
       email: 'notfound@gmail.com',
@@ -87,9 +103,11 @@ describe('LoginService', () => {
     expect(argon2.verify).not.toHaveBeenCalled();
 
     expect(sessionService.createSession).not.toHaveBeenCalled();
+
+    expect(prisma.user.update).not.toHaveBeenCalled();
   });
 
-  //wrong password test
+  // wrong password test
   it('should throw BadRequestError if password is incorrect', async () => {
     const data = {
       email: 'soroush@gmail.com',
@@ -100,6 +118,8 @@ describe('LoginService', () => {
       id: 'user-id',
       password: 'hashed-password',
       status: 'ACTIVE',
+      username: 'soroush',
+      email: 'soroush@gmail.com',
     });
 
     (argon2.verify as jest.Mock).mockResolvedValue(false);
