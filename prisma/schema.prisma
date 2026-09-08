@@ -11,12 +11,14 @@ model User {
   id        String        @id @default(uuid())
   username  String
   email     String        @unique
-  password  String?
+  password  String
   role      Role          @default(USER)
   status    AccountStatus @default(PENDING)
   isActive  Activity      @default(ACTIVE)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
+
+  blogs     Blog[]  @relation("UserBlogs")
 }
 
 enum Role {
@@ -34,4 +36,25 @@ enum Activity {
 enum AccountStatus {
   PENDING
   VERIFIED
+}
+
+
+model Blog {
+  id        String        @id @default(uuid())
+  title  String
+  slug     String        @unique
+  authorId  String 
+  status   BlogStatus   @default(DRAFT)
+  banner  String?      
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  user User @relation("UserBlogs",fields: [authorId],references: [id],onDelete: Cascade)
+}
+
+
+
+enum BlogStatus {
+  DRAFT
+  PUBLISHED
 }
