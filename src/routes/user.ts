@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import { showMeController } from '@/controllers/users/me.controller';
 import { getAllController } from '@/controllers/users/getAll.controller';
+import { updateController } from '@/controllers/users/update.controller';
 
 import { authMiddleware } from '@/middlewares/auth';
 import { permission } from '@/middlewares/permission';
@@ -15,5 +16,7 @@ router.get(
   permission(['ADMIN']),
   getAllController.getAll,
 );
+
+router.get('/update', authMiddleware, updateController.updateUser);
 
 export default router;
