@@ -13,3 +13,8 @@ export interface UserData {
   status: 'PENDING' | 'VERIFIED';
   isActive: 'ACTIVE' | 'BANNED' | 'MUTE';
 }
+
+export interface UpdatePasswordData {
+  currentPassword: string;
+  newPassword: string;
+}

@@ -26,9 +26,7 @@ export class ShowMeServices {
       },
     });
 
-    if (!user) {
-      throw new NotFoundError('user not found');
-    }
+    if (!user) throw new NotFoundError('user not found');
 
     return user;
   }
