@@ -12,18 +12,19 @@ export class GetAllService {
 
     const [data, total] = await Promise.all([
       prisma.user.findMany({
-        where: {
-          id: userId,
+        select: {
+          username: true,
+          email: true,
+          role: true,
+          isActive: true,
+          createdAt: true,
+          updatedAt: true,
         },
         take: limit,
         skip: offset,
       }),
 
-      prisma.user.count({
-        where: {
-          id: userId,
-        },
-      }),
+      prisma.user.count(),
     ]);
 
     return {
