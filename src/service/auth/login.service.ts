@@ -10,7 +10,9 @@ import { LoginData } from '@/shared/types';
 export class LoginService {
   constructor(private readonly sessionService: SessionService) {}
 
-  public async login(data: LoginData): Promise<string> {
+  public async login(
+    data: LoginData,
+  ): Promise<{ sessionId: string; username: string; email: string }> {
     const { email, password } = data;
 
     const user = await prisma.user.findUnique({
@@ -19,6 +21,8 @@ export class LoginService {
         id: true,
         password: true,
         status: true,
+        username: true,
+        email: true,
       },
     });
 
@@ -42,7 +46,13 @@ export class LoginService {
       },
     });
 
-    return this.sessionService.createSession(user.id);
+    const sessionId = await this.sessionService.createSession(user.id);
+
+    return {
+      sessionId,
+      username: user.username,
+      email: user.email,
+    };
   }
 }
 

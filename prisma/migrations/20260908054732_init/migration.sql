@@ -12,7 +12,7 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "password" TEXT NOT NULL,
+    "password" TEXT,
     "role" "Role" NOT NULL DEFAULT 'USER',
     "status" "AccountStatus" NOT NULL DEFAULT 'PENDING',
     "isActive" "Activity" NOT NULL DEFAULT 'ACTIVE',
