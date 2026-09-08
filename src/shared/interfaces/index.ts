@@ -14,6 +14,11 @@ export interface UserData {
   isActive: 'ACTIVE' | 'BANNED' | 'MUTE';
 }
 
+export interface UpdateUserData {
+  username: string;
+  email: string;
+}
+
 export interface UpdatePasswordData {
   currentPassword: string;
   newPassword: string;

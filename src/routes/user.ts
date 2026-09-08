@@ -20,14 +20,14 @@ router.get(
   getAllController.getAll,
 );
 
-router.post('/update', authMiddleware, updateController.updateUser);
+router.patch('/update', authMiddleware, updateController.updateUser);
 
-router.post(
+router.patch(
   '/password',
   authMiddleware,
   updatePasswordController.updatePassword,
 );
 
-router.post('/delete', authMiddleware, deleteUserController.deleteUser);
+router.delete('/delete', authMiddleware, deleteUserController.deleteUser);
 
 export default router;

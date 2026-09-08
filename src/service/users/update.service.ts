@@ -1,9 +1,12 @@
 import { prisma } from '@/configs/database';
 import { NotFoundError } from '@/shared/errors/notFoundError';
-import { UserData } from '@/shared/interfaces';
+import { UpdateUserData } from '@/shared/interfaces';
 
 export class UpdateUserService {
-  public async updateUser(userId: string, body: UserData): Promise<UserData> {
+  public async updateUser(
+    userId: string,
+    body: UpdateUserData,
+  ): Promise<UpdateUserData> {
     const { username, email } = body;
 
     const user = await prisma.user.update({
