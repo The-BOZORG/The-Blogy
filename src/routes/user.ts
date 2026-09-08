@@ -4,10 +4,16 @@ import { showMeController } from '@/controllers/users/me.controller';
 import { getAllController } from '@/controllers/users/getAll.controller';
 
 import { authMiddleware } from '@/middlewares/auth';
+import { permission } from '@/middlewares/permission';
 
 const router = Router();
 
 router.get('/me', authMiddleware, showMeController.showMe);
-router.get('/get', authMiddleware, getAllController.getAll);
+router.get(
+  '/get',
+  authMiddleware,
+  permission(['ADMIN']),
+  getAllController.getAll,
+);
 
 export default router;

@@ -39,11 +39,6 @@ export function errorHandler(
     err = new ServiceUnavailableError('Service temporarily unavailable');
   }
 
-  // OAuth Error
-  if (err instanceof Error && err.name === 'OAuthError') {
-    err = new AuthenticatedError('OAuth authentication failed');
-  }
-
   // Custom ApiError
   if (err instanceof ApiError) {
     return res.status(err.statusCode).json(err.serializeError());
