@@ -4,6 +4,7 @@ import { createBlogController } from '@/controllers/blog/create.controller';
 import { updateBlogController } from '@/controllers/blog/update.controller';
 import { myBlogController } from '@/controllers/blog/me.controller';
 import { deleteBlogController } from '@/controllers/blog/delete.controller';
+import { getAllBlogController } from '@/controllers/blog/getAll.controller';
 
 import { authMiddleware } from '@/middlewares/auth';
 import { permission } from '@/middlewares/permission';
@@ -24,6 +25,14 @@ router.get(
   authMiddleware,
   permission(['ADMIN', 'AUTHOR']),
   myBlogController.myBlog,
+);
+
+router.get(
+  '/get',
+  globalLimiter,
+  authMiddleware,
+  permission(['ADMIN']),
+  getAllBlogController.getAll,
 );
 
 router.post(

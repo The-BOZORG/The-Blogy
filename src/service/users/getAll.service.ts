@@ -3,13 +3,7 @@ import { redisClient } from '@/configs/redis';
 import { NotFoundError } from '@/shared/errors/notFoundError';
 
 export class GetAllService {
-  public async getAll(sessionId: string, limit: number, offset: number) {
-    const sessionKey = `session:${sessionId}`;
-
-    const userId = await redisClient.hGet(sessionKey, 'userId');
-
-    if (!userId) throw new NotFoundError('user not found');
-
+  public async getAll(limit: number, offset: number) {
     const [data, total] = await Promise.all([
       prisma.user.findMany({
         select: {
