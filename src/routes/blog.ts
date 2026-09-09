@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { createBlogController } from '@/controllers/blog/create.controller';
 import { updateBlogController } from '@/controllers/blog/update.controller';
 import { myBlogController } from '@/controllers/blog/me.controller';
+import { deleteBlogController } from '@/controllers/blog/delete.controller';
 
 import { authMiddleware } from '@/middlewares/auth';
 import { permission } from '@/middlewares/permission';
@@ -32,6 +33,14 @@ router.post(
   permission(['ADMIN', 'AUTHOR']),
   validate(createBlogSchema),
   createBlogController.createBlog,
+);
+
+router.delete(
+  '/delete',
+  globalLimiter,
+  authMiddleware,
+  permission(['ADMIN', 'AUTHOR']),
+  deleteBlogController.deleteUser,
 );
 
 router.patch(
