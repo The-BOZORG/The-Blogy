@@ -46,14 +46,6 @@ router.post(
   createBlogController.createBlog,
 );
 
-router.delete(
-  '/delete',
-  globalLimiter,
-  authMiddleware,
-  permission(['ADMIN', 'AUTHOR']),
-  deleteBlogController.deleteUser,
-);
-
 router.patch(
   '/update/:blogId',
   globalLimiter,
@@ -62,6 +54,14 @@ router.patch(
   upload.single('banner'),
   validate(updateBlogSchema),
   updateBlogController.updateBlog,
+);
+
+router.delete(
+  '/delete/:blogId',
+  globalLimiter,
+  authMiddleware,
+  permission(['ADMIN', 'AUTHOR']),
+  deleteBlogController.deleteBlog,
 );
 
 export default router;

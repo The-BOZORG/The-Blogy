@@ -1,13 +1,18 @@
-import { asyncHandler } from '@/middlewares/asyncHandler';
-import { deleteBlogService } from '@/service/blog/delete.service';
-import { ApiResponse } from '@/shared/apiResponse';
 import { Request, Response } from 'express';
 
-export class DeleteBlogController {
-  public deleteUser = asyncHandler(async (req: Request, res: Response) => {
-    await deleteBlogService.DeleteBlogService(req.user.id);
+import { asyncHandler } from '@/middlewares/asyncHandler';
+import { ApiResponse } from '@/shared/apiResponse';
+import { deleteBlogService } from '@/service/blog/delete.service';
 
-    res.status(200).json(ApiResponse(200, null, 'user deleted successfully'));
+export class DeleteBlogController {
+  public deleteBlog = asyncHandler(async (req: Request, res: Response) => {
+    const userId = req.user.id;
+    const role = req.user.role;
+    const blogId = req.params.blogId as string;
+
+    await deleteBlogService.deleteBlog(userId, blogId, role);
+
+    res.status(200).json(ApiResponse(200, null, 'blog deleted successfully'));
   });
 }
 
