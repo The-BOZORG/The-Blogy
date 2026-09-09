@@ -26,7 +26,8 @@ export interface UpdatePasswordData {
 
 export interface BlogData {
   title: string;
-  content: String;
-  banner?: String;
-  status: 'DRAFT' | 'PUBLISHED';
+  slug: string;
+  content: string;
+  banner: string | null;
+  status?: 'DRAFT' | 'PUBLISHED';
 }
