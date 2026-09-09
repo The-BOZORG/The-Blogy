@@ -9,8 +9,9 @@ export class UpdateBlogService {
     userId: string,
     blogId: string,
     body: BlogData,
+    file?: Express.Multer.File,
   ): Promise<BlogData> {
-    const { title, content, banner, status } = body;
+    const { title, content, status } = body;
 
     const user = await prisma.user.findUnique({
       where: {
@@ -32,6 +33,8 @@ export class UpdateBlogService {
       throw new AuthorizedError('you are not allowed to update this blog');
 
     const slug = genSlug(title);
+
+    const banner = file?.filename ?? null;
 
     const updatedBlog = await prisma.blog.update({
       where: {

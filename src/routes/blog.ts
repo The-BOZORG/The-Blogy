@@ -16,6 +16,7 @@ import {
 } from '@/schemas/blogValidate.schema';
 
 import { globalLimiter } from '@/middlewares/limiter';
+import { upload } from '@/middlewares/upload';
 
 const router = Router();
 
@@ -40,6 +41,7 @@ router.post(
   globalLimiter,
   authMiddleware,
   permission(['ADMIN', 'AUTHOR']),
+  upload.single('banner'),
   validate(createBlogSchema),
   createBlogController.createBlog,
 );
@@ -57,6 +59,7 @@ router.patch(
   globalLimiter,
   authMiddleware,
   permission(['ADMIN', 'AUTHOR']),
+  upload.single('banner'),
   validate(updateBlogSchema),
   updateBlogController.updateBlog,
 );

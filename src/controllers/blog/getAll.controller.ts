@@ -4,6 +4,7 @@ import { asyncHandler } from '@/middlewares/asyncHandler';
 import { getAllBlogService } from '@/service/blog/getAll.service';
 import { ApiResponse } from '@/shared/apiResponse';
 
+// ?limit=10&offset=0
 export class GetAllBlogController {
   public getAll = asyncHandler(async (req: Request, res: Response) => {
     const limit = Number(req.query.limit) || 10;

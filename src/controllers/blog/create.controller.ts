@@ -8,8 +8,9 @@ export class CreateBlogController {
   public createBlog = asyncHandler(async (req: Request, res: Response) => {
     const userId = req.user.id;
     const body = req.body;
+    const file = req.file;
 
-    const result = await createBlogService.createBlog(userId, body);
+    const result = await createBlogService.createBlog(userId, body, file);
 
     res.status(201).json(ApiResponse(201, result, 'create blog success'));
   });

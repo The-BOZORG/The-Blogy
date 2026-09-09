@@ -4,8 +4,12 @@ import { BlogData } from '@/shared/interfaces/index';
 import { genSlug } from '@/utils/slug';
 
 export class CreateBlogService {
-  public async createBlog(userId: string, body: BlogData): Promise<BlogData> {
-    const { title, content, banner, status } = body;
+  public async createBlog(
+    userId: string,
+    body: BlogData,
+    file?: Express.Multer.File,
+  ): Promise<BlogData> {
+    const { title, content, status } = body;
 
     const user = await prisma.user.findUnique({
       where: {
@@ -16,6 +20,8 @@ export class CreateBlogService {
     if (!user) throw new NotFoundError('User not found');
 
     const slug = genSlug(title);
+
+    const banner = file?.filename ?? null;
 
     const newBlog = await prisma.blog.create({
       data: {
