@@ -9,12 +9,14 @@ export class UpdateBlogController {
     const userId = req.user.id;
     const blogId = req.params.blogId as string;
     const body = req.body;
+    const role = req.user.role;
     const file = req.file;
 
     const result = await updateBlogService.blogUpdate(
       userId,
       blogId,
       body,
+      role,
       file,
     );
 

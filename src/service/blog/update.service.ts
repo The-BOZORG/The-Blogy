@@ -31,11 +31,11 @@ export class UpdateBlogService {
     if (!blog) throw new NotFoundError('blog not found');
 
     if (role !== 'ADMIN' && blog.authorId !== userId)
-      throw new AuthorizedError('You are not allowed to delete this blog');
+      throw new AuthorizedError('You are not update  to delete this blog');
 
-    const slug = genSlug(title);
+    const slug = title ? genSlug(title) : blog.slug;
 
-    const banner = file?.filename ?? null;
+    const banner = file ? file.filename : blog.banner;
 
     const updatedBlog = await prisma.blog.update({
       where: {
