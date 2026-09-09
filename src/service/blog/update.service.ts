@@ -1,14 +1,15 @@
 import { prisma } from '@/configs/database';
 import { NotFoundError } from '@/shared/errors/notFoundError';
-import { AuthorizedError } from '@/shared/errors/authorizedError';
 import { BlogData } from '@/shared/interfaces';
 import { genSlug } from '@/utils/slug';
+import { AuthorizedError } from '@/shared/errors/authorizedError';
 
 export class UpdateBlogService {
   public async blogUpdate(
     userId: string,
     blogId: string,
     body: BlogData,
+    role: string,
     file?: Express.Multer.File,
   ): Promise<BlogData> {
     const { title, content, status } = body;
@@ -29,8 +30,8 @@ export class UpdateBlogService {
 
     if (!blog) throw new NotFoundError('blog not found');
 
-    if (blog.authorId !== userId)
-      throw new AuthorizedError('you are not allowed to update this blog');
+    if (role !== 'ADMIN' && blog.authorId !== userId)
+      throw new AuthorizedError('You are not allowed to delete this blog');
 
     const slug = genSlug(title);
 
