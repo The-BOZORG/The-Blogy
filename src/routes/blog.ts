@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import { createBlogController } from '@/controllers/blog/create.controller';
 import { updateBlogController } from '@/controllers/blog/update.controller';
+import { myBlogController } from '@/controllers/blog/me.controller';
 
 import { authMiddleware } from '@/middlewares/auth';
 import { permission } from '@/middlewares/permission';
@@ -15,6 +16,14 @@ import {
 import { globalLimiter } from '@/middlewares/limiter';
 
 const router = Router();
+
+router.get(
+  '/me',
+  globalLimiter,
+  authMiddleware,
+  permission(['ADMIN', 'AUTHOR']),
+  myBlogController.myBlog,
+);
 
 router.post(
   '/create',
