@@ -1,12 +1,16 @@
 import { Router } from 'express';
 
 import { createBlogController } from '@/controllers/blog/create.controller';
+import { updateBlogController } from '@/controllers/blog/update.controller';
 
 import { authMiddleware } from '@/middlewares/auth';
 import { permission } from '@/middlewares/permission';
 import { validate } from '@/middlewares/validate';
 
-import { createBlogSchema } from '@/schemas/blogValidate.schema';
+import {
+  createBlogSchema,
+  updateBlogSchema,
+} from '@/schemas/blogValidate.schema';
 
 import { globalLimiter } from '@/middlewares/limiter';
 
@@ -19,6 +23,15 @@ router.post(
   permission(['ADMIN', 'AUTHOR']),
   validate(createBlogSchema),
   createBlogController.createBlog,
+);
+
+router.patch(
+  '/update/:blogId',
+  globalLimiter,
+  authMiddleware,
+  permission(['ADMIN', 'AUTHOR']),
+  validate(updateBlogSchema),
+  updateBlogController.updateBlog,
 );
 
 export default router;
