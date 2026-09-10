@@ -21,13 +21,13 @@ router.post(
 router.get('/get', permission(['ADMIN']), getAuthorRequestsController.get);
 
 router.post(
-  '/requests/:requestId/approve',
+  '/approve/:requestId',
   permission(['ADMIN']),
   approveRequestController.handle,
 );
 
 router.post(
-  '/:requestId/reject',
+  '/reject/:requestId',
   permission(['ADMIN']),
   rejectAuthorRequestController.handle,
 );

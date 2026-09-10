@@ -5,6 +5,7 @@ import { getAllController } from '@/controllers/users/getAll.controller';
 import { updateController } from '@/controllers/users/update.controller';
 import { updatePasswordController } from '@/controllers/users/updatePassword.controller';
 import { deleteUserController } from '@/controllers/users/delete.controller';
+import { banUserController } from '@/controllers/users/ban.controller';
 
 import { authMiddleware } from '@/middlewares/auth';
 import { permission } from '@/middlewares/permission';
@@ -46,5 +47,7 @@ router.patch(
 );
 
 router.delete('/delete', authMiddleware, deleteUserController.deleteUser);
+
+router.patch('/ban/:userId', permission(['ADMIN']), banUserController.banUser);
 
 export default router;
