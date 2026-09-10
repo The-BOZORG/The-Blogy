@@ -6,6 +6,7 @@ import { updateController } from '@/controllers/users/update.controller';
 import { updatePasswordController } from '@/controllers/users/updatePassword.controller';
 import { deleteUserController } from '@/controllers/users/delete.controller';
 import { banUserController } from '@/controllers/users/ban.controller';
+import { muteUserController } from '@/controllers/users/mute.controller';
 
 import { authMiddleware } from '@/middlewares/auth';
 import { permission } from '@/middlewares/permission';
@@ -53,6 +54,13 @@ router.patch(
   authMiddleware,
   permission(['ADMIN']),
   banUserController.banUser,
+);
+
+router.patch(
+  '/mute/:userId',
+  authMiddleware,
+  permission(['ADMIN']),
+  muteUserController.muteUser,
 );
 
 export default router;

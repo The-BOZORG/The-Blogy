@@ -1,4 +1,5 @@
 import { prisma } from '@/configs/database';
+import { AuthorizedError } from '@/shared/errors/authorizedError';
 import { NotFoundError } from '@/shared/errors/notFoundError';
 import { BlogData } from '@/shared/interfaces/index';
 import { genSlug } from '@/utils/slug';
@@ -18,6 +19,9 @@ export class CreateBlogService {
     });
 
     if (!user) throw new NotFoundError('User not found');
+
+    if (user.isActive !== 'ACTIVE')
+      throw new AuthorizedError('user is not allowed to create blog');
 
     const slug = genSlug(title);
 

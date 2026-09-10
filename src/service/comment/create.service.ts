@@ -12,9 +12,8 @@ export class CreateCommentService {
 
     if (!user) throw new NotFoundError('user not found');
 
-    if (user.isActive === 'MUTE' || user.isActive === 'BANNED') {
+    if (user.isActive !== 'ACTIVE')
       throw new AuthorizedError('user is not allowed to comment');
-    }
 
     const blog = await prisma.blog.findUnique({
       where: {
