@@ -20,6 +20,7 @@ model User {
 
   blogs     Blog[]  @relation("UserBlogs")
   comments     Comment[]  @relation("UserComments")
+  authorRequests  AuthorRequest[]  @relation("UserRequests")
 }
 
 enum Role {
@@ -74,4 +75,22 @@ model Comment{
   user User @relation("UserComments",fields: [userId],references: [id],onDelete: Cascade)
 
   blog  Blog  @relation("BlogComments",fields: [blogId],references: [id], onDelete: Cascade)
+}
+
+
+model AuthorRequest{
+  id        String        @id @default(uuid())
+  userId      String  
+  reason    String?
+  status     RequestStatus   @default(PENDING)   
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  user User @relation("UserRequests",fields: [userId],references: [id],onDelete: Cascade)
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
