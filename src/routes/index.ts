@@ -4,6 +4,7 @@ import { ApiResponse } from '@/shared/apiResponse';
 import authRoute from '@/routes/auth';
 import userRoute from '@/routes/user';
 import blogRoute from '@/routes/blog';
+import commentRouter from '@/routes/comment';
 
 const router = Router();
 
@@ -11,6 +12,7 @@ const router = Router();
 router.use('/auth', authRoute);
 router.use('/user', userRoute);
 router.use('/blog', blogRoute);
+router.use('/comment', commentRouter);
 
 //root
 router.get('/', (req, res) => {

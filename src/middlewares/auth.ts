@@ -33,8 +33,9 @@ export const authMiddleware = asyncHandler(
     if (user.status !== 'VERIFIED')
       throw new AuthenticatedError('user is not verified');
 
-    if (user.isActive !== 'ACTIVE')
-      throw new AuthenticatedError('user account is not active');
+    if (user.isActive === 'BANNED') {
+      throw new AuthenticatedError('user account is banned');
+    }
 
     req.user = user;
 
