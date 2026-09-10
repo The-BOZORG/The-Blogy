@@ -1,9 +1,12 @@
 import { Router } from 'express';
 
 import { authorRequestsController } from '@/controllers/author/authorRequest.controller';
+import { approveRequestController } from '@/controllers/author/approveRequest.controller';
+import { rejectAuthorRequestController } from '@/controllers/author/rejectRequest.controller';
 
 import { authMiddleware } from '@/middlewares/auth';
 import { authLimiter } from '@/middlewares/limiter';
+import { permission } from '@/middlewares/permission';
 
 const router = Router();
 
@@ -12,6 +15,18 @@ router.post(
   authLimiter,
   authMiddleware,
   authorRequestsController.createRequest,
+);
+
+router.post(
+  '/requests/:requestId/approve',
+  permission(['ADMIN']),
+  approveRequestController.handle,
+);
+
+router.post(
+  '/:requestId/reject',
+  permission(['ADMIN']),
+  rejectAuthorRequestController.handle,
 );
 
 export default router;
