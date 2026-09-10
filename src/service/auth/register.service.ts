@@ -4,7 +4,8 @@ import { prisma } from '@/configs/database';
 
 import { BadRequestError } from '@/shared/errors/badRequestError';
 import { ConflictError } from '@/shared/errors/conflictError';
-import { RegisterData, UserResponse } from '@/shared/types';
+import { UserResponse } from '@/shared/types';
+import { RegisterData } from '@/shared/interfaces/index';
 import { config } from '@/configs';
 
 class RegisterService {
