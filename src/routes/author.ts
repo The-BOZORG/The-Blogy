@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { authorRequestsController } from '@/controllers/author/authorRequest.controller';
 import { approveRequestController } from '@/controllers/author/approveRequest.controller';
 import { rejectAuthorRequestController } from '@/controllers/author/rejectRequest.controller';
+import { getAuthorRequestsController } from '@/controllers/author/getRequets.controller';
 
 import { authMiddleware } from '@/middlewares/auth';
 import { authLimiter } from '@/middlewares/limiter';
@@ -16,6 +17,8 @@ router.post(
   authMiddleware,
   authorRequestsController.createRequest,
 );
+
+router.get('/get', permission(['ADMIN']), getAuthorRequestsController.get);
 
 router.post(
   '/requests/:requestId/approve',
