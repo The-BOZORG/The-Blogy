@@ -19,6 +19,7 @@ model User {
   updatedAt DateTime      @updatedAt
 
   blogs     Blog[]  @relation("UserBlogs")
+  comments     Comment[]  @relation("UserComments")
 }
 
 enum Role {
@@ -51,6 +52,8 @@ model Blog {
   updatedAt DateTime      @updatedAt
 
   user User @relation("UserBlogs",fields: [authorId],references: [id],onDelete: Cascade)
+
+  comments     Comment[]  @relation("BlogComments")
 }
 
 
@@ -58,4 +61,17 @@ model Blog {
 enum BlogStatus {
   DRAFT
   PUBLISHED
+}
+
+model Comment{
+  id        String        @id @default(uuid())
+  content   String
+  userId      String  
+  blogId     String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  user User @relation("UserComments",fields: [userId],references: [id],onDelete: Cascade)
+
+  blog  Blog  @relation("BlogComments",fields: [blogId],references: [id], onDelete: Cascade)
 }
