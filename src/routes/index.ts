@@ -1,18 +1,17 @@
 import { Router } from 'express';
-import swaggerUi from 'swagger-ui-express';
-import specs from '@/configs/swagger';
-
 import { ApiResponse } from '@/shared/apiResponse';
+
 import authRoute from '@/routes/auth';
 import userRoute from '@/routes/user';
 import blogRoute from '@/routes/blog';
 import commentRouter from '@/routes/comment';
 import authorRouter from '@/routes/author';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from '@/configs/swagger';
 
 const router = Router();
 
-//swagger
-router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+router.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 //routes
 router.use('/auth', authRoute);
