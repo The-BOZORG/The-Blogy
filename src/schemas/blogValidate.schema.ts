@@ -30,5 +30,5 @@ export const updateBlogSchema = z.object({
   status: z.enum(['DRAFT', 'PUBLISHED']).optional(),
 });
 
-export type CreateInput = z.infer<typeof createBlogSchema>;
-export type UpdateInput = z.infer<typeof updateBlogSchema>;
+export type CreateBlogInput = z.infer<typeof createBlogSchema>;
+export type UpdateBlogInput = z.infer<typeof updateBlogSchema>;
