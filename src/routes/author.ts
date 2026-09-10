@@ -18,16 +18,23 @@ router.post(
   authorRequestsController.createRequest,
 );
 
-router.get('/get', permission(['ADMIN']), getAuthorRequestsController.get);
+router.get(
+  '/get',
+  authMiddleware,
+  permission(['ADMIN']),
+  getAuthorRequestsController.get,
+);
 
 router.post(
   '/approve/:requestId',
+  authMiddleware,
   permission(['ADMIN']),
   approveRequestController.handle,
 );
 
 router.post(
   '/reject/:requestId',
+  authMiddleware,
   permission(['ADMIN']),
   rejectAuthorRequestController.handle,
 );

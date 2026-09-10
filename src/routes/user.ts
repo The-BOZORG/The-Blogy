@@ -48,6 +48,11 @@ router.patch(
 
 router.delete('/delete', authMiddleware, deleteUserController.deleteUser);
 
-router.patch('/ban/:userId', permission(['ADMIN']), banUserController.banUser);
+router.patch(
+  '/ban/:userId',
+  authMiddleware,
+  permission(['ADMIN']),
+  banUserController.banUser,
+);
 
 export default router;

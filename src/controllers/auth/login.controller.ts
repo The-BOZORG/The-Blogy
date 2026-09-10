@@ -16,15 +16,18 @@ export class LoginController {
         maxAge: 1000 * 60 * 60 * 24 * 7,
       });
 
-      res
-        .status(200)
-        .json(
-          ApiResponse(
-            200,
-            { username: result.username, email: result.email },
-            'user login successfully',
-          ),
-        );
+      res.status(200).json(
+        ApiResponse(
+          200,
+          {
+            username: result.username,
+            email: result.email,
+            role: result.role,
+            isActive: result.isActive,
+          },
+          'user login successfully',
+        ),
+      );
     },
   );
 }

@@ -8,12 +8,12 @@ export class CreateCommentController {
   public createComment = asyncHandler(async (req: Request, res: Response) => {
     const userId = req.user.id;
     const { content } = req.body;
-    const blogId = req.blog.id;
+    const blogId = req.params.blogId as string;
 
     const result = await createCommentService.createComment(
       userId,
-      content,
       blogId,
+      content,
     );
 
     res.status(201).json(ApiResponse(201, result, 'create comment success'));

@@ -23,7 +23,7 @@ router.get(
 );
 
 router.post(
-  '/create',
+  '/create/:blogId',
   globalLimiter,
   authMiddleware,
   validate(createCommentSchema),
