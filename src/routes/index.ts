@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import swaggerUi from 'swagger-ui-express';
+import specs from '@/configs/swagger';
 
 import { ApiResponse } from '@/shared/apiResponse';
 import authRoute from '@/routes/auth';
@@ -9,7 +11,10 @@ import authorRouter from '@/routes/author';
 
 const router = Router();
 
-//router
+//swagger
+router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
+//routes
 router.use('/auth', authRoute);
 router.use('/user', userRoute);
 router.use('/blog', blogRoute);
