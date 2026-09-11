@@ -4,6 +4,29 @@ A production-oriented REST API for a blogging platform, built with Express, Type
 
 The API supports user authentication, role-based access control, blog publishing, comments, author applications, file uploads, rate limiting, validation, and interactive Swagger documentation.
 
+## Table of Contents
+
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Architecture](#architecture)
+  - [Request Lifecycle](#request-lifecycle)
+- [API Base URL](#api-base-url)
+- [API Endpoints](#api-endpoints)
+  - [Authentication](#authentication)
+  - [Users](#users)
+  - [Blogs](#blogs)
+  - [Comments](#comments)
+  - [Author Requests](#author-requests)
+- [Environment Variables](#environment-variables)
+- [Getting Started](#getting-started)
+  - [Docker Compose](#option-1-docker-compose)
+  - [Local Development](#option-2-local-development)
+- [Project Structure](#project-structure)
+- [GitHub Actions](#github-actions)
+  - [Test Job](#test-job)
+  - [Docker Job](#docker-job)
+- [Notes](#notes)
+
 ## Features
 
 - Session-based authentication with HTTP-only cookies
