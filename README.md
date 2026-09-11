@@ -11,7 +11,6 @@ The API supports user authentication, role-based access control, blog publishing
 - Role-based authorization with `ADMIN`, `AUTHOR`, and `USER` roles
 - Author access requests with approve/reject workflows
 - Zod validation for request bodies and environment variables
-- Centralized API errors and consistent JSON responses
 - Helmet security headers, CORS, compression, and rate limiting
 - Docker Compose setup for the API, PostgreSQL, and Redis
 - Interactive OpenAPI documentation with Swagger UI
@@ -31,13 +30,11 @@ The API supports user authentication, role-based access control, blog publishing
 | Authentication   | Argon2 + Redis sessions + HTTP-only cookies |
 | File uploads     | Multer                                      |
 | Documentation    | Swagger UI + swagger-jsdoc                  |
-| Testing          | Jest + SWC                                  |
+| Testing          | Jest                                        |
 | Containerization | Docker Compose                              |
 | CI/CD            | GitHub Actions + GitHub Container Registry  |
 
 ## Architecture
-
-The project follows a feature-based layered architecture. Routes compose middleware, controllers translate HTTP input into service calls, and services contain business rules and persistence operations.
 
 ```mermaid
 flowchart LR
@@ -276,7 +273,7 @@ The workflow requires these repository secrets:
 
 The workflow also uses the automatically provided `GITHUB_TOKEN` to publish the image to GHCR. Make sure the repository's Actions workflow has permission to write packages.
 
-## Security Notes
+## Notes
 
 - Passwords are hashed with Argon2 and are never returned by authenticated user queries.
 - Sessions are stored in Redis and identified by the `session_id` HTTP-only cookie.
