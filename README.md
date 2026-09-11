@@ -15,6 +15,7 @@ The API supports user authentication, role-based access control, blog publishing
 - Helmet security headers, CORS, compression, and rate limiting
 - Docker Compose setup for the API, PostgreSQL, and Redis
 - Interactive OpenAPI documentation with Swagger UI
+- GitHub Actions CI for type-checking, migrations, tests, and Docker image publishing
 
 ## Technology Stack
 
@@ -32,6 +33,7 @@ The API supports user authentication, role-based access control, blog publishing
 | Documentation    | Swagger UI + swagger-jsdoc                  |
 | Testing          | Jest + SWC                                  |
 | Containerization | Docker Compose                              |
+| CI/CD            | GitHub Actions + GitHub Container Registry  |
 
 ## Architecture
 
@@ -236,11 +238,43 @@ The development server uses Nodemon and starts `server.ts` through `tsx`.
 ├── uploads/                 # Uploaded blog banners
 ├── Dockerfile
 ├── docker-compose.yml
+├── .github/workflows/ci.yml # CI checks and Docker image publishing
 ├── index.ts                # Express application composition
 ├── server.ts               # Database/Redis startup and HTTP listener
 ├── package.json
 └── tsconfig.json
 ```
+
+## GitHub Actions
+
+The workflow in `.github/workflows/ci.yml` runs on every `push` and `pull_request`.
+
+### Test job
+
+The `test` job runs on Ubuntu with PostgreSQL 17 and Redis 7 service containers. It performs the following checks:
+
+1. Installs dependencies with `npm ci`.
+2. Generates the Prisma Client.
+3. Applies committed migrations with `prisma migrate deploy`.
+4. Runs the TypeScript compiler with `tsc --noEmit`.
+5. Runs the Jest test suite.
+
+### Docker job
+
+The `docker` job runs only after the `test` job succeeds. It logs in to GitHub Container Registry and builds and pushes the Docker image:
+
+```text
+ghcr.io/the-bozorg/blogy:latest
+```
+
+The workflow requires these repository secrets:
+
+| Secret              | Used for                                           |
+| ------------------- | -------------------------------------------------- |
+| `POSTGRES_PASSWORD` | PostgreSQL service and CI `DATABASE_URL`           |
+| `WHITELIST_ADMIN`   | Admin email whitelist used by the test environment |
+
+The workflow also uses the automatically provided `GITHUB_TOKEN` to publish the image to GHCR. Make sure the repository's Actions workflow has permission to write packages.
 
 ## Security Notes
 
