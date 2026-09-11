@@ -9,13 +9,7 @@ The API supports user authentication, role-based access control, blog publishing
 - Session-based authentication with HTTP-only cookies
 - Redis-backed sessions with a seven-day expiration
 - Role-based authorization with `ADMIN`, `AUTHOR`, and `USER` roles
-- User profile and password management
-- Blog creation, editing, publishing, and deletion
-- Draft and published blog states
-- Optional blog banner uploads using Multer
-- Comment creation and ownership-aware deletion
 - Author access requests with approve/reject workflows
-- PostgreSQL persistence through Prisma ORM
 - Zod validation for request bodies and environment variables
 - Centralized API errors and consistent JSON responses
 - Helmet security headers, CORS, compression, and rate limiting
@@ -87,77 +81,6 @@ sequenceDiagram
     A-->>C: Standardized JSON response
 ```
 
-## Domain Model
-
-```mermaid
-erDiagram
-    USER ||--o{ BLOG : authors
-    USER ||--o{ COMMENT : writes
-    USER ||--o{ AUTHOR_REQUEST : submits
-    BLOG ||--o{ COMMENT : contains
-
-    USER {
-        uuid id PK
-        string username
-        string email UK
-        string password
-        enum role
-        enum status
-        enum activity
-        datetime createdAt
-        datetime updatedAt
-    }
-
-    BLOG {
-        uuid id PK
-        string title
-        string content
-        string slug UK
-        uuid authorId FK
-        enum status
-        string banner
-        datetime createdAt
-        datetime updatedAt
-    }
-
-    COMMENT {
-        uuid id PK
-        string content
-        uuid userId FK
-        uuid blogId FK
-        datetime createdAt
-        datetime updatedAt
-    }
-
-    AUTHOR_REQUEST {
-        uuid id PK
-        uuid userId FK
-        string reason
-        enum status
-        datetime createdAt
-        datetime updatedAt
-    }
-```
-
-### Roles and permissions
-
-| Capability                        | USER | AUTHOR | ADMIN |
-| --------------------------------- | :--: | :----: | :---: |
-| Register and log in               | Yes  |  Yes   |  Yes  |
-| View own profile                  | Yes  |  Yes   |  Yes  |
-| Update own profile/password       | Yes  |  Yes   |  Yes  |
-| Create comments                   | Yes  |  Yes   |  Yes  |
-| Delete own comments               | Yes  |  Yes   |  Yes  |
-| View own blogs                    |  No  |  Yes   |  Yes  |
-| Create and edit blogs             |  No  |  Yes   |  Yes  |
-| View all blogs                    |  No  |   No   |  Yes  |
-| View all users                    |  No  |   No   |  Yes  |
-| Ban or mute users                 |  No  |   No   |  Yes  |
-| Submit author request             | Yes  |  Yes   |  Yes  |
-| Approve or reject author requests |  No  |   No   |  Yes  |
-
-A user with `BANNED` activity cannot authenticate. A muted user can authenticate but is restricted from operations such as creating blogs or comments where enforced by the service layer.
-
 ## API Base URL
 
 All application routes are mounted below:
@@ -225,21 +148,6 @@ Blog create and update requests use `multipart/form-data`. Supported fields are 
 | `POST` | `/author/approve/:requestId` | Admin         | Approve and promote the requester to `AUTHOR` |
 | `POST` | `/author/reject/:requestId`  | Admin         | Reject an author request                      |
 
-## Standard Response Format
-
-Successful responses use the following shape:
-
-```json
-{
-  "statusCode": 200,
-  "data": {},
-  "message": "Success",
-  "success": true
-}
-```
-
-Errors are handled by the global error middleware and use the project's custom error classes for common HTTP statuses such as `400`, `401`, `403`, `404`, `409`, `500`, and `503`.
-
 ## Environment Variables
 
 Create a `.env` file in the project root. The application validates these values at startup:
@@ -306,17 +214,6 @@ npm start
 
 The development server uses Nodemon and starts `server.ts` through `tsx`.
 
-## Available Scripts
-
-| Command                     | Description                |
-| --------------------------- | -------------------------- |
-| `npm start`                 | Start the API with Nodemon |
-| `npm test`                  | Run the Jest test suite    |
-| `npx tsc --noEmit`          | Type-check the project     |
-| `npx prisma generate`       | Generate the Prisma client |
-| `npx prisma migrate deploy` | Apply committed migrations |
-| `npx prisma studio`         | Open Prisma Studio         |
-
 ## Project Structure
 
 ```text
@@ -345,38 +242,6 @@ The development server uses Nodemon and starts `server.ts` through `tsx`.
 └── tsconfig.json
 ```
 
-## Database Migrations
-
-Migrations are stored under `prisma/migrations`. The current schema includes:
-
-- Users, roles, account status, and activity state
-- Blogs and unique slugs
-- Blog comments
-- Author access requests
-- Cascading deletes from users to blogs/comments/requests and from blogs to comments
-
-For a development database, use Prisma's migration tooling as appropriate. For a deployed environment, use:
-
-```bash
-npx prisma migrate deploy
-```
-
-## Testing
-
-The project uses Jest with SWC for TypeScript transformation. Current tests focus on service behavior such as registration, login, and user updates.
-
-Run tests with:
-
-```bash
-npm test
-```
-
-Run tests once without watch behavior:
-
-```bash
-npm test -- --runInBand
-```
-
 ## Security Notes
 
 - Passwords are hashed with Argon2 and are never returned by authenticated user queries.
@@ -386,7 +251,4 @@ npm test -- --runInBand
 - CORS is controlled through `CORS_WHITELIST`.
 - Keep `.env` out of version control and rotate credentials if they have been exposed.
 - Review upload size and MIME-type restrictions before exposing the API to untrusted users.
-
-## License
-
-This project is currently distributed under the license declared in `package.json`.
+- A user with `BANNED` activity cannot authenticate. A `MUTE` user can authenticate but is restricted from operations such as creating blogs or comments where enforced by the service layer.
