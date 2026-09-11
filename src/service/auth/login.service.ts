@@ -5,18 +5,12 @@ import { prisma } from '@/configs/database';
 import { BadRequestError } from '@/shared/errors/badRequestError';
 
 import { SessionService } from '@/utils/session';
-import { LoginData } from '@/shared/interfaces';
+import { LoginData, LoginResponse } from '@/shared/interfaces';
 
 export class LoginService {
   constructor(private readonly sessionService: SessionService) {}
 
-  public async login(data: LoginData): Promise<{
-    sessionId: string;
-    username: string;
-    email: string;
-    role: string;
-    isActive: string;
-  }> {
+  public async login(data: LoginData): Promise<LoginResponse> {
     const { email, password } = data;
 
     const user = await prisma.user.findUnique({
@@ -24,7 +18,6 @@ export class LoginService {
       select: {
         id: true,
         password: true,
-        status: true,
         username: true,
         email: true,
         role: true,

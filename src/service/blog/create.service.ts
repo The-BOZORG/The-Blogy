@@ -1,13 +1,13 @@
 import { prisma } from '@/configs/database';
 import { AuthorizedError } from '@/shared/errors/authorizedError';
 import { NotFoundError } from '@/shared/errors/notFoundError';
-import { BlogData } from '@/shared/interfaces/index';
+import { CreateBlogData, BlogData } from '@/shared/interfaces/index';
 import { genSlug } from '@/utils/slug';
 
 export class CreateBlogService {
   public async createBlog(
     userId: string,
-    body: BlogData,
+    body: CreateBlogData,
     file?: Express.Multer.File,
   ): Promise<BlogData> {
     const { title, content, status } = body;

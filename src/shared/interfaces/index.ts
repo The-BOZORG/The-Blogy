@@ -16,6 +16,14 @@ export interface LoginData {
   password: string;
 }
 
+export interface LoginResponse {
+  sessionId: string;
+  username: string;
+  email: string;
+  role: string;
+  isActive: string;
+}
+
 export interface UserData {
   username: string;
   email: string;
@@ -35,10 +43,16 @@ export interface UpdatePasswordData {
   newPassword: string;
 }
 
+export interface CreateBlogData {
+  title: string;
+  content: string;
+  status: 'DRAFT' | 'PUBLISHED';
+}
+
 export interface BlogData {
   title: string;
   slug: string;
   content: string;
   banner: string | null;
-  status?: 'DRAFT' | 'PUBLISHED';
+  status: 'DRAFT' | 'PUBLISHED';
 }

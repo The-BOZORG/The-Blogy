@@ -5,7 +5,6 @@
   "main": "server.ts",
   "scripts": {
     "start": "nodemon",
-    "start:debug": "node --inspect=0.0.0.0:9229 --import tsx server.ts",
     "test": "jest",
     "dev": "tsx watch src/server.ts"
   },

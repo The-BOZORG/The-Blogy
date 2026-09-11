@@ -39,6 +39,8 @@ describe('LoginService', () => {
       status: 'ACTIVE',
       username: 'soroush',
       email: 'soroush@gmail.com',
+      role: 'ADMIN',
+      isActive: 'ACTIVE',
     });
 
     (argon2.verify as jest.Mock).mockResolvedValue(true);
@@ -55,6 +57,8 @@ describe('LoginService', () => {
       sessionId: 'session-id',
       username: 'soroush',
       email: 'soroush@gmail.com',
+      isActive: 'ACTIVE',
+      role: 'ADMIN',
     });
 
     expect(prisma.user.findUnique).toHaveBeenCalledWith({
@@ -64,9 +68,10 @@ describe('LoginService', () => {
       select: {
         id: true,
         password: true,
-        status: true,
         username: true,
         email: true,
+        isActive: true,
+        role: true,
       },
     });
 
