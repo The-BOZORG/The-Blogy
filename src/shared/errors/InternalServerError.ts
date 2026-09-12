@@ -6,7 +6,6 @@ import { StatusCodes } from 'http-status-codes';
 export class InternalServerError extends ApiError {
   constructor(message: string) {
     super(message, StatusCodes.INTERNAL_SERVER_ERROR);
-    this.name = 'internal-server-error';
   }
 
   public serializeError(): SerializeError {

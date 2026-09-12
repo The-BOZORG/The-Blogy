@@ -6,7 +6,6 @@ import { StatusCodes } from 'http-status-codes';
 export class AuthorizedError extends ApiError {
   constructor(message: string) {
     super(message, StatusCodes.FORBIDDEN);
-    this.name = 'forbidden';
   }
 
   public serializeError(): SerializeError {

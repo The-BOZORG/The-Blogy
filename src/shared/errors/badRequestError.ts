@@ -6,7 +6,6 @@ import { StatusCodes } from 'http-status-codes';
 export class BadRequestError extends ApiError {
   constructor(message: string) {
     super(message, StatusCodes.BAD_REQUEST);
-    this.name = 'bad-request';
   }
 
   public serializeError(): SerializeError {

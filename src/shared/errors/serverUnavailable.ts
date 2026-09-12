@@ -6,7 +6,6 @@ import { StatusCodes } from 'http-status-codes';
 export class ServiceUnavailableError extends ApiError {
   constructor(message: string) {
     super(message, StatusCodes.SERVICE_UNAVAILABLE);
-    this.name = 'server-unavailable';
   }
 
   public serializeError(): SerializeError {
