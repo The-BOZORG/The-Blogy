@@ -15,10 +15,7 @@ export function errorHandler(
   res: Response,
   _next: NextFunction,
 ) {
-  logger.error({
-    message: err instanceof Error ? err.message : err,
-    stack: err instanceof Error ? err.stack : undefined,
-  });
+  logger.error(err);
 
   // Prisma Errors
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
@@ -39,7 +36,7 @@ export function errorHandler(
     err = new ServiceUnavailableError('Service temporarily unavailable');
   }
 
-  // Custom ApiError
+  // Known ApiError
   if (err instanceof ApiError) {
     return res.status(err.statusCode).json(err.serializeError());
   }

@@ -9,6 +9,5 @@ export function ApiResponse<T>(
     statusCode,
     data,
     message,
-    success: statusCode < 400,
   };
 }

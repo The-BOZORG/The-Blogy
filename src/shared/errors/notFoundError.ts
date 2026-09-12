@@ -4,8 +4,8 @@ import { StatusCodes } from 'http-status-codes';
 
 //404
 export class NotFoundError extends ApiError {
-  constructor(message: string, details?: any) {
-    super(message, StatusCodes.NOT_FOUND, details);
+  constructor(message: string) {
+    super(message, StatusCodes.NOT_FOUND);
     this.name = 'notFound';
   }
 
@@ -13,7 +13,6 @@ export class NotFoundError extends ApiError {
     return {
       message: this.message,
       statusCode: this.statusCode,
-      details: this.details,
     };
   }
 }

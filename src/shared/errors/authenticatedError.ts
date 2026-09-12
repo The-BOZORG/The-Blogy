@@ -4,8 +4,8 @@ import { StatusCodes } from 'http-status-codes';
 
 //401
 export class AuthenticatedError extends ApiError {
-  constructor(message: string, details?: any) {
-    super(message, StatusCodes.UNAUTHORIZED, details);
+  constructor(message: string) {
+    super(message, StatusCodes.UNAUTHORIZED);
     this.name = 'UNAUTHORIZED';
   }
 
@@ -13,7 +13,6 @@ export class AuthenticatedError extends ApiError {
     return {
       message: this.message,
       statusCode: this.statusCode,
-      details: this.details,
     };
   }
 }

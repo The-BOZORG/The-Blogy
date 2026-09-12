@@ -4,8 +4,8 @@ import { StatusCodes } from 'http-status-codes';
 
 //500
 export class InternalServerError extends ApiError {
-  constructor(message: string, details?: any) {
-    super(message, StatusCodes.INTERNAL_SERVER_ERROR, details);
+  constructor(message: string) {
+    super(message, StatusCodes.INTERNAL_SERVER_ERROR);
     this.name = 'internal-server-error';
   }
 
@@ -13,7 +13,6 @@ export class InternalServerError extends ApiError {
     return {
       message: this.message,
       statusCode: this.statusCode,
-      details: this.details,
     };
   }
 }

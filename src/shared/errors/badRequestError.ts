@@ -4,8 +4,8 @@ import { StatusCodes } from 'http-status-codes';
 
 //400
 export class BadRequestError extends ApiError {
-  constructor(message: string, details?: any) {
-    super(message, StatusCodes.BAD_REQUEST, details);
+  constructor(message: string) {
+    super(message, StatusCodes.BAD_REQUEST);
     this.name = 'bad-request';
   }
 
@@ -13,7 +13,6 @@ export class BadRequestError extends ApiError {
     return {
       message: this.message,
       statusCode: this.statusCode,
-      details: this.details,
     };
   }
 }

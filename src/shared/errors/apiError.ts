@@ -3,10 +3,9 @@ export class ApiError extends Error {
 
   public details: any;
 
-  constructor(message: string, status: number, details?: any) {
+  constructor(message: string, status: number) {
     super(message);
     this.statusCode = status;
-    this.details = details;
   }
 
   public serializeError() {

@@ -4,8 +4,8 @@ import { StatusCodes } from 'http-status-codes';
 
 //409
 export class ConflictError extends ApiError {
-  constructor(message: string, details?: any) {
-    super(message, StatusCodes.CONFLICT, details);
+  constructor(message: string) {
+    super(message, StatusCodes.CONFLICT);
     this.name = 'conflict';
   }
 
@@ -13,7 +13,6 @@ export class ConflictError extends ApiError {
     return {
       message: this.message,
       statusCode: this.statusCode,
-      details: this.details,
     };
   }
 }

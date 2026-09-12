@@ -4,8 +4,8 @@ import { StatusCodes } from 'http-status-codes';
 
 //403
 export class AuthorizedError extends ApiError {
-  constructor(message: string, details?: any) {
-    super(message, StatusCodes.FORBIDDEN, details);
+  constructor(message: string) {
+    super(message, StatusCodes.FORBIDDEN);
     this.name = 'forbidden';
   }
 
@@ -13,7 +13,6 @@ export class AuthorizedError extends ApiError {
     return {
       message: this.message,
       statusCode: this.statusCode,
-      details: this.details,
     };
   }
 }
