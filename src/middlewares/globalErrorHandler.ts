@@ -1,4 +1,5 @@
 import { Prisma } from '@generated/prisma/client';
+import multer from 'multer';
 import { Request, Response, NextFunction } from 'express';
 
 import { logger } from '@/utils/logger';
@@ -28,12 +29,19 @@ export function errorHandler(
 
   // Session Error
   if (err instanceof Error && err.name === 'SessionError') {
-    err = new AuthenticatedError('Invalid or expired session');
+    err = new AuthenticatedError('invalid or expired session');
   }
 
   // Redis Error
   if (err instanceof Error && err.name === 'RedisError') {
-    err = new ServiceUnavailableError('Service temporarily unavailable');
+    err = new ServiceUnavailableError('service temporarily unavailable');
+  }
+
+  // Multer Errors
+  if (err instanceof multer.MulterError) {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      err = new BadRequestError('file size must not exceed 2MB');
+    }
   }
 
   // Known ApiError
