@@ -32,6 +32,11 @@ export interface UserData {
   isActive: 'ACTIVE' | 'BANNED' | 'MUTE';
 }
 
+export interface AuthUser {
+  id: string;
+  role: 'ADMIN' | 'USER' | 'AUTHOR';
+}
+
 export interface UpdateUserData {
   username: string;
   email: string;

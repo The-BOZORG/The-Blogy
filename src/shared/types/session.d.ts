@@ -1,10 +1,10 @@
-import { UserResponse } from '@/shared/types/user.types';
 import { Blog } from '@generated/prisma/client';
+import { AuthUser } from '../interfaces';
 
 declare global {
   namespace Express {
     interface Request {
-      user: UserResponse;
+      user: AuthUser;
       blog: Blog;
     }
   }
