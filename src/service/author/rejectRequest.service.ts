@@ -3,7 +3,7 @@ import { ConflictError } from '@/shared/errors/conflictError';
 import { NotFoundError } from '@/shared/errors/notFoundError';
 
 export class RejectAuthorRequestService {
-  public async execute(requestId: string) {
+  public async reject(requestId: string) {
     const request = await prisma.authorRequest.findUnique({
       where: {
         id: requestId,

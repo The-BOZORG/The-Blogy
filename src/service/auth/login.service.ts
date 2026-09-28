@@ -27,12 +27,7 @@ export class LoginService {
 
     if (!user) throw new BadRequestError('invalid email or password');
 
-    const hashedPassword = user.password;
-
-    if (hashedPassword === null)
-      throw new BadRequestError('invalid email or password');
-
-    const validPassword = await argon2.verify(hashedPassword, password);
+    const validPassword = await argon2.verify(user.password, password);
 
     if (!validPassword) throw new BadRequestError('invalid email or password');
 

@@ -6,7 +6,7 @@ export class ApproveRequestController {
   public async handle(req: Request, res: Response) {
     const { requestId } = req.params as { requestId: string };
 
-    const result = await approveAuthorRequestService.execute(requestId);
+    const result = await approveAuthorRequestService.approve(requestId);
 
     res.status(201).json(ApiResponse(201, result));
   }

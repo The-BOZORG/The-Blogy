@@ -53,7 +53,6 @@ The API supports user authentication, role-based access control, blog publishing
 | Authentication   | Argon2 + Redis sessions + HTTP-only cookies |
 | File uploads     | Multer                                      |
 | Documentation    | Swagger UI + swagger-jsdoc                  |
-| Testing          | Jest                                        |
 | Containerization | Docker Compose                              |
 | CI/CD            | GitHub Actions + GitHub Container Registry  |
 
@@ -253,7 +252,6 @@ The development server uses Nodemon and starts `server.ts` through `tsx`.
 │   ├── schemas/             # Zod request schemas
 │   ├── service/             # Feature-based business logic
 │   ├── shared/              # Responses, errors, interfaces, and types
-│   ├── test/                # Jest service tests
 │   └── utils/               # Sessions, logging, CORS, and slug helpers
 ├── uploads/                 # Uploaded blog banners
 ├── Dockerfile

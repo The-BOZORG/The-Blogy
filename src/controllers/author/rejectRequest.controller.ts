@@ -6,7 +6,7 @@ export class RejectAuthorRequestController {
   public async handle(req: Request, res: Response) {
     const { requestId } = req.params as { requestId: string };
 
-    const result = await rejectAuthorRequestService.execute(requestId);
+    const result = await rejectAuthorRequestService.reject(requestId);
 
     res.status(201).json(ApiResponse(201, result));
   }
